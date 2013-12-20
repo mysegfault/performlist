@@ -67,7 +67,11 @@ require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList,
 
 ## Examples
 
-See the "examples" folder
+[Download](https://github.com/mysegfault/performlist/archive/master.zip) the project and use the "examples" folder that contains a snapshot of all the libraries
+
+Or 
+
+[access directly the performlist examples](https://rawgithub.com/mysegfault/performlist/master/examples/index.html)
 
 ## Notes
 
