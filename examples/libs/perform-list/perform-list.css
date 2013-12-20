@@ -1,0 +1,141 @@
+/*
+ * Performlist is an HTML5 library for making fast scrolling lists
+ * 2013-12-19
+ *
+ * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist
+ * 
+ * MIT Licence
+ */
+
+/* You might want to copy these rules for your project
+:focus {
+	outline: none;
+}
+body {
+	overflow: hidden;
+	-ms-touch-action: none;	
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+*/
+
+.perform-list, .perform-list *, .perform-list *:before, .perform-list *:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* disable double-tap-to-zoom on certain elements */
+.perform-list a, .perform-list input, .perform-list button {
+	-ms-touch-action: none !important;
+}
+
+.perform-list button {
+	border: 0;
+	cursor: pointer;
+}
+
+.perform-list-container-parent {
+	position: relative;
+}
+
+.perform-list.perform-list-container {
+	position: relative;
+	overflow-x: hidden;
+	overflow-y: scroll;
+
+	/* iOS smooth scrolling */
+	-webkit-overflow-scrolling: touch;
+}
+
+.perform-list .perform-list-category-item {
+	word-break: break-word;
+	word-break: keep-all;
+	/* so the content will never be printed over the limit */
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.perform-list .perform-list-category-title {
+	word-break: break-word;
+	word-break: keep-all;
+	/* so the content will never be printed over the limit */
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.perform-list.perform-list-filters {
+	margin: 0px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	overflow: hidden;
+	/* defined from the JS -> width: 26px;*/
+	text-align: center;
+	color: white;
+	background-color: black;
+
+	display: box;
+	display: -webkit-box;
+	-webkit-box-align: center;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+
+	/*transition: top .3s ease-in-out, opacity 2s ease;*/
+}
+
+.perform-list .perform-list-filters-button {
+	background: transparent;
+	color: white;
+	text-decoration: none;
+	font-size: .9em;
+	display: block;
+	/*word-wrap: break-word;*/
+	width: 100%;
+
+	box-flex: 1;
+	-webkit-box-flex: 1;
+}
+
+.perform-list .perform-list-filters-button.hover {
+	color: #FFD901;
+	font-weight: 500;
+	font-size: 1em;
+}
+
+/* 3D animations filters */
+.perform-list.os-is-ios .perform-list-scroller > *, .perform-list.os-is-ios .perform-list-scroller {
+	/*-webkit-transform: translateZ(0);*/
+}
+.perform-list.os-is-android .perform-list-scroller {
+  /* Must be enabled in order to set the scrollTo() correcly */
+	-webkit-transform: translateZ(0);
+}
+
+/* CSS TOOLS */
+.perform-list .cursor-pointer {
+	cursor: pointer;
+}
+.perform-list .white-space-no-wrap {
+	white-space: nowrap;
+}
+.perform-list .padding-all-little {
+	padding: 5px;
+}
+.perform-list .hidden {
+	display: none !important;
+}
+.perform-list .display-inline-block {
+	display: inline-block;
+}
+.perform-list .text-centered {
+	text-align: center;
+}

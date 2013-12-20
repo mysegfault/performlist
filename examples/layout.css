@@ -1,0 +1,36 @@
+
+body {
+	background-color: #eee;
+	font-family: Verdana;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.text-centered {
+	text-align: center;
+}
+
+/* List items + title styles */
+
+.perform-list-category-title {
+	text-align: center;
+	border-bottom: 1px solid #006699;
+	background-color: #ccc;
+	font-weight: bold;
+}
+.perform-list-category-item {
+	border-bottom: 1px solid #006699;
+	background-color: #f5f5f5;
+	padding-left: 20px;
+}
+.perform-list-category-item:last-child {
+	border-bottom: 0px;
+}
+
+.perform-list-category-item.selected {
+	background-color: orange;
+}
+

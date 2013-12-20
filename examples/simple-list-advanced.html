@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>PerformList simple list advanced example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<link rel="stylesheet" href="libs/perform-list/perform-list.css">
+
+	<!-- HTML5 Boilerplate main.css -->
+	<link rel="stylesheet" href="main.css">
+	<!-- Example page styles -->
+	<link rel="stylesheet" href="layout.css">
+	<style>
+		body {
+			background-color: black;
+		}
+		.example-container {
+			margin: 30px auto;
+		}
+		.example-container .example-container {
+			max-height: 200px;
+			width: 320px;
+		}
+	</style>
+</head>
+<body>
+	<article class="example-container">
+		<div data-id="my-container" class="example-container">
+			<p class="text-centered">Loading...</p>
+		</div>
+	</article>
+
+	<!-- Optional: Polyfill for devices that do not support classList -->
+	<script src="libs/classList/classList.min.js"></script>
+
+	<script src="libs/require/require.js"></script>
+
+	<script>
+		require.config({
+			baseUrl: 'libs'
+		});
+
+		require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList, pubsub) {
+
+			var list = new PerformList();
+			var options = {
+				listContainerElement: document.querySelector('[data-id=my-container]')
+			};
+			list.init(options);
+
+			pubsub.subscribe('mbs.performlist.initialized.' + list.getId(), function() {
+				var items = [
+					'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour',
+					'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour'
+				];
+				list.setData(items);
+				list.start();
+			});
+		});
+	</script>
+
+</body>
+</html>

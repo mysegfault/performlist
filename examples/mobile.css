@@ -1,0 +1,64 @@
+
+/******************* Portrait *******************/
+/* iPhone4 */
+@media only screen and (min-height: 350px) and (orientation: portrait) {
+	.perform-list-container {
+		height: 270px;
+	}
+}
+/* Nexus S, Galaxy S2 */
+@media only screen and (min-height: 400px) and (orientation: portrait) {
+	.perform-list-container {
+		height: 350px;
+	}
+}
+/* iPhone5 */
+@media only screen and (min-height: 460px) and (orientation: portrait) {
+	.perform-list-container {
+		height: 380px;
+	}
+}
+/* Nexus 7 */
+@media only screen and (min-height: 750px) and (orientation: portrait) {
+	.perform-list-container {
+		height: 700px;
+	}
+}
+
+/******************* Landscape *******************/
+/* iPhone4  */
+@media only screen and (min-height: 200px) and (orientation: landscape) {
+	.perform-list-container {
+		height: 160px;
+	}
+}
+/* Nexus S */
+@media only screen and (min-height: 220px) and (orientation: landscape) {
+	.perform-list-container {
+		height: 180px;
+	}
+}
+/* iPhone5 with nav bar */
+@media only screen and (min-height: 280px) and (orientation: landscape) {
+	.perform-list-container {
+		height: 240px;
+	}
+}
+/* iPhone5 without nav bar */
+@media only screen and (min-height: 320px) and (orientation: landscape) {
+	.perform-list-container {
+		height: 260px;
+	}
+}
+/* Nexus 7 */
+@media only screen and (min-height: 400px) and (orientation: landscape) {
+	.perform-list-container {
+		height: 370px;
+	}
+}
+/* Desktop */
+@media only screen and (min-height: 650px) and (orientation: landscape) {
+	.perform-list-container {
+		height: 610px;
+	}
+}

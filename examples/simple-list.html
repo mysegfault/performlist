@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>PerformList simple example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<link rel="stylesheet" href="../src/perform-list.css">
+
+	<!-- HTML5 Boilerplate main.css -->
+	<link rel="stylesheet" href="main.css">
+	<!-- Example page styles -->
+	<link rel="stylesheet" href="layout.css">
+	<style>
+		.perform-list-container {
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+	<div class="perform-list-container">
+		<p class="text-centered">Loading...</p>
+	</div>
+
+	<!-- Optional: Polyfill for devices that do not support classList -->
+	<script src="libs/classList/classList.min.js"></script>
+
+	<script src="libs/require/require.js"></script>
+	<script>
+		require.config({
+			baseUrl: 'libs'
+		});
+
+		require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList, pubsub) {
+
+			var list = new PerformList();
+			list.init();
+
+			pubsub.subscribe('mbs.performlist.initialized.' + list.getId(), function() {
+				var items = [
+					'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour',
+					'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour', 'Bonjour'
+				];
+				list.setData(items);
+			});
+
+		});
+	</script>
+</body>
+</html>

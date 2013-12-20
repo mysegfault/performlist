@@ -1,0 +1,19 @@
+{
+  "name": "performlist",
+  "version": "0.1",
+  "homepage": "https://github.com/mysegfault/performlist",
+  "authors": [
+    "mysegfault <maxime.alexandre@mobile-spot.com>"
+  ],
+  "description": "Performlist is an HTML5 library for making fast scrolling lists (like Contact list)",
+  "license": "MIT",
+  "dependencies": {
+    "requirejs": "~2.1.9",
+    "html5-mobile-boilerplate": "~4.1.0",
+    "pubsub-js": "~1.4.0",
+    "raf.js": "~0.0.3",
+    "tweenjs": "*"
+  },
+  "devDependencies": {}
+}
+

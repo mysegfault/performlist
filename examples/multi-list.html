@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>PerformList multi list example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<link rel="stylesheet" href="libs/perform-list/perform-list.css">
+
+	<!-- HTML5 Boilerplate main.css -->
+	<link rel="stylesheet" href="main.css">
+	<!-- Example page styles -->
+	<link rel="stylesheet" href="layout.css">
+	<style>
+		.list {
+			max-height: 100px;
+			border: 2px solid black;
+		}
+		
+		.separator {
+			padding: 10px 0;
+			text-align: center;
+			background-color: pink;
+			margin-top: 30px;
+		}
+		.separator:first-of-type {
+			margin-top: 0px;
+		}
+		
+		.container-bottom {
+			background-color: black;
+			color: blue;
+		}
+	</style>
+</head>
+<body>
+	<p class="separator">List with no category</p>
+	<article class="container-top">
+		<div data-id="perform-list-top" class="list">
+			<p class="text-centered">Loading top list...</p>
+		</div>
+	</article>
+	
+	<p class="separator">List with categories + selectors (default)</p>
+	
+	<article class="container-bottom">
+		<div data-id="perform-list-bottom" class="list">
+			<p class="text-centered">Loading bottom list...</p>
+		</div>
+	</article>
+	
+	<p class="separator">List with categories + no selectors</p>
+	
+	<article class="container-bottom">
+		<div data-id="perform-list-bottom-ns" class="list">
+			<p class="text-centered">Loading bottom list with no selectors...</p>
+		</div>
+	</article>
+
+	<!-- Optional: Polyfill for device that cannot support classList -->
+	<script src="libs/classList/classList.min.js"></script>
+	
+	<script src="libs/require/require.js"></script>
+	<script>
+		require.config({
+			baseUrl: 'libs'
+		});
+
+		require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList, pubsub) {
+
+			var listTop = new PerformList();
+			var optionsTop = {
+				listContainerElement: document.querySelector('[data-id=perform-list-top]')
+			};
+			listTop.init(optionsTop);
+
+			pubsub.subscribe('mbs.performlist.initialized.' + listTop.getId(), function() {
+				var items = [
+					'Bonjour','Bonjour','Bonjour',
+					'Hello','Hello','Hello',
+					'Hola','Hola','Hola','Hola','Hola','Hola'
+				];
+				listTop.setData(items);
+			});
+			
+			var listBottom = new PerformList();
+			var optionsBottom = {
+				listContainerElement: document.querySelector('[data-id=perform-list-bottom]')
+			};
+			listBottom.init(optionsBottom);
+			pubsub.subscribe('mbs.performlist.initialized.' + listBottom.getId(), function() {
+				var items = {
+					'French': ['Bonjour','Bonjour','Bonjour'],
+					'English': ['Hello','Hello','Hello'],
+					'Spanish': ['Hola','Hola','Hola','Hola','Hola','Hola']
+				};
+				listBottom.setData(items);
+			});
+			
+			var listBottomNs = new PerformList();
+			var optionsBottomNs = {
+				listContainerElement: document.querySelector('[data-id=perform-list-bottom-ns]'),
+				useFilters: false
+			};
+			listBottomNs.init(optionsBottomNs);
+			pubsub.subscribe('mbs.performlist.initialized.' + listBottomNs.getId(), function() {
+				var items = {
+					'French': ['Bonjour','Bonjour','Bonjour'],
+					'English': ['Hello','Hello','Hello'],
+					'Spanish': ['Hola','Hola','Hola','Hola','Hola','Hola']
+				};
+				listBottomNs.setData(items);
+			});
+
+		});
+	</script>
+</body>
+</html>
