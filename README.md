@@ -35,7 +35,7 @@ MIT (https://github.com/mysegfault/performlist/blob/master/LICENSE)
 * raf.js (git://github.com/ngryman/raf.js.git)
 * html5-mobile-boilerplate (git://github.com/h5bp/mobile-boilerplate.git)
 
-Optional (for better brower support):
+Optional (for better browser support):
 * classList (git://github.com/eligrey/classList.js.git)
 
 ## Install
@@ -84,3 +84,4 @@ And also work with iScroll lists.
 
 iScroll is recommanded for iOS devices + old Android devices.
 
+Feedback / comments are welcomed !! :D
