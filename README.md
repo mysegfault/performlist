@@ -40,8 +40,7 @@ Optional (for better browser support):
 
 ## Install
 
-1. bower install perform-list
-2. configure require.js (require.config())
+1. bower install performlist
 
 ## How to use it
 
