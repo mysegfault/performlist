@@ -1,11 +1,11 @@
 # Performlist
 
-Performlist is an HTML5 library for making fast scrolling lists (like Contact list).
+Performlist is an HTML5 library for making fast scrolling lists (i.e. a contact list).
 
 Every Mobile Native framework (ObjC, Android SDK...) has a "widget" for displaying content
 through a scrolling list. HTML5 didn't had yet... I mean for long scrolling lists that
 struggle to be displayed in a browser.
-PerformList was first build for "native web" applications, like the ones build with Apache
+PerformList was first build for "native web" applications, like the ones built with Apache
 Cordova. It also generates an automatic touchable index when using items with categories.
 
 [See my presentation (in French) about "native web" feedback](http://experiences-en-web-natif.gopagoda.com)
@@ -25,11 +25,12 @@ MIT (https://github.com/mysegfault/performlist/blob/master/LICENSE)
 * CSS / JS non obstructive
 * Use broadcast signal (pub/sub) design
 * Compatible with iScroll lists
+* Auto resizeable
 
 ## Dependencies Bower plugins
 
 * pubsub-js (git://github.com/mroderick/PubSubJS.git)
-* js-dom-tools ()
+* js-dom-tools (git://github.com/mysegfault/js-dom-tools)
 * requirejs (git://github.com/jrburke/requirejs.git)
 * raf.js (git://github.com/ngryman/raf.js.git)
 * html5-mobile-boilerplate (git://github.com/h5bp/mobile-boilerplate.git)
