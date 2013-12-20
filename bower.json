@@ -1,6 +1,6 @@
 {
   "name": "performlist",
-  "version": "0.1",
+  "version": "0.1.1",
   "homepage": "https://github.com/mysegfault/performlist",
   "authors": [
     "mysegfault <maxime.alexandre@mobile-spot.com>"
@@ -12,7 +12,8 @@
     "html5-mobile-boilerplate": "~4.1.0",
     "pubsub-js": "~1.4.0",
     "raf.js": "~0.0.3",
-    "tweenjs": "*"
+    "tweenjs": "*",
+    "js-dom-tools": "~0.1"
   },
   "devDependencies": {}
 }
