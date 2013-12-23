@@ -1,12 +1,3 @@
-/*
- * Performlist is an HTML5 library for making fast scrolling lists
- * 2013-12-19
- *
- * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist
- * 
- * MIT Licence
- */
-
 define(['js-dom-tools/js-dom-tools'], function(jsDomTools) {
 	'use strict';
 	var console = jsDomTools.useDebug(false);

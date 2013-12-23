@@ -1,12 +1,3 @@
-/*
- * Performlist is an HTML5 library for making fast scrolling lists
- * 2013-12-19
- *
- * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist
- * 
- * MIT Licence
- */
-
 define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(raf, tweenjs, pubsub, jsDomTools) {
 	'use strict';
 	var console = jsDomTools.useDebug(false);
@@ -96,8 +87,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 
 	Filter.prototype.initialized = function() {
 		//console.log('Filter.prototype.initialized!!');
-		var that = this;
-
 	};
 
 	Filter.prototype.ready = function() {
@@ -250,16 +239,16 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			}
 		}
 
-		that._vars.eventCallbacks['touchstart'] = {parent: that._vars.filterContainerElement, callback: _onTouchStart};
+		that._vars.eventCallbacks.touchstart = {parent: that._vars.filterContainerElement, callback: _onTouchStart};
 		that._vars.filterContainerElement.addEventListener('touchstart', _onTouchStart, false);
 
-		that._vars.eventCallbacks['touchmove'] = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
+		that._vars.eventCallbacks.touchmove = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
 		that._vars.filterContainerElement.addEventListener('touchmove', _onTouchMove, false);
 
-		that._vars.eventCallbacks['touchend'] = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
+		that._vars.eventCallbacks.touchend = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
 		that._vars.filterContainerElement.addEventListener('touchend', _onTouchMove, false);
 
-		that._vars.eventCallbacks['click'] = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
+		that._vars.eventCallbacks.click = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
 		that._vars.filterContainerElement.addEventListener('click', _onTouchMove, false);
 	};
 
@@ -330,9 +319,9 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 				_validIndexes.push(_titleElements.length - 1);
 			}
 
-			for (var i = 0; i < _titleElements.length; i++) {
-				var _titleElement = _titleElements[i];
-				if (_validIndexes.indexOf(i) !== -1) {
+			for (var j = 0; j < _titleElements.length; j++) {
+				var _titleElement = _titleElements[j];
+				if (_validIndexes.indexOf(j) !== -1) {
 					_titleElement.classList.remove('hidden');
 					_visibleItems.push(_titleElement);
 				}
@@ -532,11 +521,12 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			return;
 		}
 
+		var scrollTop;
 		if (typeof event.target._scrollTop !== 'undefined') {
-			var scrollTop = event.target._scrollTop + 4;
+			scrollTop = event.target._scrollTop + 4;
 		}
 		else {
-			var scrollTop = event.target.scrollTop + 4;
+			scrollTop = event.target.scrollTop + 4;
 		}
 		var idx;
 

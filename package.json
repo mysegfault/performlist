@@ -14,12 +14,11 @@
   "bugs": {
     "url": "https://github.com/mysegfault/performlist/issues"
   },
-  "dependencies": {
-    "requirejs": "~2.1.9",
-    "html5-mobile-boilerplate": "~4.1.0",
-    "pubsub-js": "~1.4.0",
-    "raf.js": "~0.0.3",
-    "tweenjs": "*",
-    "js-dom-tools": "*"
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-cssmin": "~0.7.0"
   }
 }

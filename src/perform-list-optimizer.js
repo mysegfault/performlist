@@ -1,12 +1,3 @@
-/*
- * Performlist is an HTML5 library for making fast scrolling lists
- * 2013-12-19
- *
- * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist
- * 
- * MIT Licence
- */
-
 define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(helper, pubsub, jsDomTools) {
 	'use strict';
 	var console = jsDomTools.useDebug(false);
@@ -38,7 +29,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 	Optimizer.prototype.init = function(options) {
 		var that = this;
-		
+
 		that._vars.listElement = options.listElement;
 		that._vars.listItems = options.listItems;
 		that._vars.id = options.id;
@@ -60,7 +51,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 	Optimizer.prototype.loadFromElement = function(scrollerElement) {
 		var that = this;
-		
+
 		that._vars.scrollerElement = scrollerElement;
 		this._automaticMaxItemsSelection();
 		this._loadFrom(0);
@@ -69,7 +60,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 	// PRIVATE METHODS //
 	Optimizer.prototype._automaticMaxItemsSelection = function() {
 		var that = this;
-		
+
 		var _isIOS6 = window.navigator.userAgent.match(/OS 6_.* like/) !== null;
 		if (_isIOS6 === true) {
 			that._vars.maxItems = that._options.maxItemsMatrix.ios6;
@@ -100,13 +91,6 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			return;
 		}
 
-		var _isAndroid4_3 = window.navigator.userAgent.match(/Android 4\.3/) !== null;
-		if (_isAndroid4_3 === true) {
-			// leave default
-			return;
-		}
-
-//		alert(window.navigator.userAgent);
 	};
 
 	Optimizer.prototype._loadFrom = function(offset, reverse) {
@@ -116,7 +100,8 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		}
 
 		var that = this;
-
+		var listItemNode;
+		
 		that._vars.scrollerElement.innerHTML = '';
 
 		if (offset < 0) {
@@ -124,7 +109,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		}
 
 		if (offset > 0) {
-			var listItemNode = document.createElement('div');
+			listItemNode = document.createElement('div');
 			listItemNode.innerHTML = 'Click for PREVIOUS';
 			listItemNode.classList.add('text-centered');
 			listItemNode.style.padding = '20px';
@@ -140,12 +125,12 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			if (typeof that._vars.listItems[i] === 'undefined') {
 				break;
 			}
-			var listItemNode = that._vars.listItems[i];
+			listItemNode = that._vars.listItems[i];
 			that._vars.scrollerElement.appendChild(listItemNode);
 		}
 
 		if (typeof that._vars.listItems[i] !== 'undefined') {
-			var listItemNode = document.createElement('div');
+			listItemNode = document.createElement('div');
 			listItemNode.setAttribute('is-loader', i);
 			listItemNode.innerHTML = 'Click for NEXT';
 			listItemNode.style.padding = '20px';

@@ -1,12 +1,3 @@
-/*
- * Performlist is an HTML5 library for making fast scrolling lists
- * 2013-12-19
- *
- * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist
- * 
- * MIT Licence
- */
-
 define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(helper, pubsub, jsDomTools) {
 	'use strict';
 	var console = jsDomTools.useDebug(false);
@@ -283,7 +274,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 		var _titleNodeTemplate = document.createElement(that._options.titleType);
 		_titleNodeTemplate.classList.add(this._getClassName('category-title'));
-		if (that._options.categoryTitleExtraClass != '') {
+		if (that._options.categoryTitleExtraClass !== '') {
 			_titleNodeTemplate.classList.add(that._options.categoryTitleExtraClass);
 		}
 
@@ -318,7 +309,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 	Performlist.prototype._buildListScroller = function() {
 		var that = this;
 		var _itemParentElement;
-		
+
 		if (that._options.listScrollerElement !== null) {
 			_itemParentElement = that._options.listScrollerElement;
 		}
@@ -469,8 +460,8 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 		if (that._options.useOptimizer === true) {
 			_hasNoPlugin = false;
-			require(['perform-list/perform-list-optimizer'], function(optimizerBuilder) {
-				that._vars.optimizer = new optimizerBuilder();
+			require(['perform-list/perform-list-optimizer'], function(OptimizerBuilder) {
+				that._vars.optimizer = new OptimizerBuilder();
 				var __options = {
 					'id': that._vars.id,
 					'listElement': that._vars.listElement,
@@ -484,8 +475,8 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		}
 		if (that._options.useFilters === true) {
 			_hasNoPlugin = false;
-			require(['perform-list/perform-list-filter'], function(filterBuilder) {
-				that._vars.filter = new filterBuilder();
+			require(['perform-list/perform-list-filter'], function(FilterBuilder) {
+				that._vars.filter = new FilterBuilder();
 				var __options = {
 					'id': that._vars.id,
 					'listElement': that._vars.listElement
@@ -530,25 +521,25 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 	Performlist.prototype._onListResize = function() {
 		// Disabled for now because not used !
 		/*
-		 if (that._vars.scrollerElement === null || that._vars.listElement === null) {
-		 return;
-		 }
-		 
-		 var csScrollingElement = window.getComputedStyle(that._vars.scrollerElement, null);
-		 var csListElement = window.getComputedStyle(that._vars.listElement, null);
-		 
-		 var _csScrollingElementHeight = csScrollingElement.height.replace('px', '');
-		 var _csListElementHeight = csListElement.height.replace('px', '');
-		 
-		 var _msg;
-		 if (_csScrollingElementHeight < _csListElementHeight) {
-		 _msg = 'content-smaller';
-		 }
-		 else {
-		 _msg = 'content-bigger';
-		 }
-		 pubsub.publish('mbs.performlist.' + _msg + '.' + that._vars.id);
-		 */
+		if (that._vars.scrollerElement === null || that._vars.listElement === null) {
+			return;
+		}
+
+		var csScrollingElement = window.getComputedStyle(that._vars.scrollerElement, null);
+		var csListElement = window.getComputedStyle(that._vars.listElement, null);
+
+		var _csScrollingElementHeight = csScrollingElement.height.replace('px', '');
+		var _csListElementHeight = csListElement.height.replace('px', '');
+
+		var _msg;
+		if (_csScrollingElementHeight < _csListElementHeight) {
+			_msg = 'content-smaller';
+		}
+		else {
+			_msg = 'content-bigger';
+		}
+		pubsub.publish('mbs.performlist.' + _msg + '.' + that._vars.id);
+		*/
 	};
 
 	Performlist.prototype._startListeners = function() {
