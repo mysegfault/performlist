@@ -1,6 +1,6 @@
 /* 
  * performlist: Performlist is an HTML5 library for making fast scrolling lists (like Contact list) 
- * v0.1.2 
+ * v0.1.4 
  * 
  * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist 
  * MIT Licence 
@@ -85,13 +85,8 @@ define([ "raf.js/raf.min", "tweenjs/tween.min", "pubsub-js/pubsub", "js-dom-tool
     };
     Filter.prototype.start = function() {
         var that = this;
-        try {
-            that._vars.iScrollInst = $(that._vars.listElement).data("iscroll");
-            if (typeof that._vars.iScrollInst === "undefined") {
-                that._vars.iScrollInst = null;
-            }
-        } catch (e) {
-            that._vars.iScrollInst = null;
+        if (typeof window.iScroll === "function" && that._vars.listElement.iScroll instanceof window.iScroll) {
+            that._vars.iScrollInst = that._vars.listElement.iScroll;
         }
         that._startListenersOnFilterContainerElement();
         that.resize();
@@ -300,8 +295,12 @@ define([ "raf.js/raf.min", "tweenjs/tween.min", "pubsub-js/pubsub", "js-dom-tool
             return false;
         }
         if (that._vars.iScrollInst !== null) {
-            that._vars.iScrollInst.scrollToElement(_titleElement, 0);
-            that._vars.iScrollInst.scrollTo(0, -6, 0, true);
+            if (typeof window.IScroll === "function") {
+                that._vars.iScrollInst.scrollToElement(_titleElement, 0);
+            } else {
+                that._vars.iScrollInst.scrollToElement(_titleElement, 0);
+                that._vars.iScrollInst.scrollTo(0, -3, 0, true);
+            }
         } else {
             var _to = jsDomTools.getOffsetSum(_titleElement).top - that._vars.filterContainerElementTop - 3;
             if (_to <= 0) {

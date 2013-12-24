@@ -111,15 +111,8 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 //		console.log('Filter.prototype.start!!');
 		var that = this;
 
-		// TODO: find a more generic iScroll detection!
-		try {
-			that._vars.iScrollInst = $(that._vars.listElement).data('iscroll');
-			if (typeof that._vars.iScrollInst === 'undefined') {
-				that._vars.iScrollInst = null;
-			}
-		}
-		catch (e) {
-			that._vars.iScrollInst = null;
+		if (typeof window.iScroll === 'function' && that._vars.listElement.iScroll instanceof window.iScroll) {
+			that._vars.iScrollInst = that._vars.listElement.iScroll;
 		}
 
 		that._startListenersOnFilterContainerElement();
@@ -402,12 +395,19 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 
 		if (that._vars.iScrollInst !== null) {
-			that._vars.iScrollInst.scrollToElement(_titleElement, 0);
-			that._vars.iScrollInst.scrollTo(0, -6, 0, true);
+			// iScroll 5
+			if (typeof window.IScroll === 'function') {
+				that._vars.iScrollInst.scrollToElement(_titleElement, 0);
+			}
+			// iScroll 4
+			else {
+				that._vars.iScrollInst.scrollToElement(_titleElement, 0);
+				that._vars.iScrollInst.scrollTo(0, -3, 0, true);
+			}
 		}
 		else {
 			var _to = jsDomTools.getOffsetSum(_titleElement).top - that._vars.filterContainerElementTop - 3;
-			
+
 			// first item selection could be negative
 			if (_to <= 0) {
 				_to = 1;

@@ -362,6 +362,9 @@ var items = {
 		"Ralph", "Rodolphe", "Raphaël", "Rémi",
 		"Ralph", "Rodolphe", "Raphaël", "Rémi",
 		"Riri"
+	],
+	"Z": [
+		"Zoé", "Zoa", "Zorro"
 	]
 };
 

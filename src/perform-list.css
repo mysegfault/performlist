@@ -39,6 +39,10 @@ body {
 
 .perform-list.perform-list-container {
 	position: relative;
+	overflow: hidden;
+}
+
+.perform-list.perform-list-container.browser-scroll {
 	overflow-x: hidden;
 	overflow-y: scroll;
 

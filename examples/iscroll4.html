@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>PerformList adaptative list example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<link rel="stylesheet" href="libs/perform-list/perform-list.css">
+
+	<!-- HTML5 Boilerplate main.css -->
+	<link rel="stylesheet" href="main.css">
+	<!-- Example page styles -->
+	<link rel="stylesheet" href="layout.css">
+	<link rel="stylesheet" href="mobile.css">
+	<style>
+		.perform-list-category-item.selected {
+			background-color: orange;
+		}
+	</style>
+</head>
+<body>
+	<div class="perform-list-container">
+		<p class="text-centered">Loading...</p>
+	</div>
+
+	<!-- Optional: Polyfill for devices that do not support classList -->
+	<script src="libs/classList/classList.min.js"></script>
+
+	<!-- Static content, could be retrieved from AJAX -->
+	<script src="adaptative-content.js"></script>
+
+	<script src="libs/iscroll4/iscroll.js"></script>
+
+	<script src="libs/require/require.js"></script>
+	<script>
+		require.config({
+			baseUrl: 'libs'
+		});
+
+		require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList, pubsub) {
+
+			var list = new PerformList();
+			list.init();
+
+			pubsub.subscribe('mbs.performlist.initialized.' + list.getId(), function() {
+				// items is defined in the external file adaptative-content.js
+				// in order to simplify this file
+				list.setData(items);
+			});
+
+			pubsub.subscribe('mbs.performlist.ready.' + list.getId(), function() {
+				var myScroll = new iScroll(document.querySelector('.perform-list-container'));
+				document.querySelector('.perform-list-container').iScroll = myScroll;
+				myScroll.refresh();
+			});
+
+			pubsub.subscribe('mbs.performlist.click.' + list.getId(), function(msg, event) {
+				if (event.target.classList.contains('selected') === true) {
+					event.target.classList.remove('selected');
+				}
+				else {
+					event.target.classList.add('selected');
+				}
+
+				var item = event.target.querySelector('span[href]');
+				if (item === null) {
+					return;
+				}
+				var href = item.getAttribute('href');
+				console.log('Do what you need with: ', href);
+			});
+
+		});
+	</script>
+</body>
+</html>

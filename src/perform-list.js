@@ -119,6 +119,11 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			}
 		});
 
+		// iScroll4 / 5 detection
+		if (typeof window.IScroll === 'function' && typeof window.iScroll !== 'function') {
+			window.iScroll = IScroll;
+		}
+
 		this._loadPlugins();
 	};
 
@@ -135,15 +140,30 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 	Performlist.prototype.start = function() {
 		var that = this;
 
-		// TODO: find a more generic iScroll detection!
-		try {
-			that._vars.iScrollInst = $(that._vars.listElement).data('iscroll');
-			if (typeof that._vars.iScrollInst === 'undefined') {
-				that._vars.iScrollInst = null;
+		if (typeof window.iScroll === 'function') {
+			var iScrollInst = null;
+
+			// first try
+			if (typeof that._vars.listElement.iScroll !== 'undefined') {
+				if (that._vars.listElement.iScroll instanceof window.iScroll) {
+					iScrollInst = that._vars.listElement.iScroll;
+				}
+			}
+
+			// second try
+			if (iScrollInst !== null && typeof $ === 'function') {
+				iScrollInst = $(that._vars.listElement).data("iscroll");
+			}
+
+			if (iScrollInst instanceof window.iScroll) {
+				that._vars.iScrollInst = that._vars.listElement.iScroll = iScrollInst;
 			}
 		}
-		catch (e) {
-			that._vars.iScrollInst = null;
+
+		if (that._vars.iScrollInst === null) {
+			if (that._vars.listElement.classList.contains('browser-scroll') === false) {
+				that._vars.listElement.classList.add('browser-scroll');
+			}
 		}
 
 		that._listToListItemClick(that._vars.listElement);
@@ -520,26 +540,24 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 	Performlist.prototype._onListResize = function() {
 		// Disabled for now because not used !
-		/*
-		if (that._vars.scrollerElement === null || that._vars.listElement === null) {
-			return;
-		}
-
-		var csScrollingElement = window.getComputedStyle(that._vars.scrollerElement, null);
-		var csListElement = window.getComputedStyle(that._vars.listElement, null);
-
-		var _csScrollingElementHeight = csScrollingElement.height.replace('px', '');
-		var _csListElementHeight = csListElement.height.replace('px', '');
-
-		var _msg;
-		if (_csScrollingElementHeight < _csListElementHeight) {
-			_msg = 'content-smaller';
-		}
-		else {
-			_msg = 'content-bigger';
-		}
-		pubsub.publish('mbs.performlist.' + _msg + '.' + that._vars.id);
-		*/
+//		if (that._vars.scrollerElement === null || that._vars.listElement === null) {
+//			return;
+//		}
+//
+//		var csScrollingElement = window.getComputedStyle(that._vars.scrollerElement, null);
+//		var csListElement = window.getComputedStyle(that._vars.listElement, null);
+//
+//		var _csScrollingElementHeight = csScrollingElement.height.replace('px', '');
+//		var _csListElementHeight = csListElement.height.replace('px', '');
+//
+//		var _msg;
+//		if (_csScrollingElementHeight < _csListElementHeight) {
+//			_msg = 'content-smaller';
+//		}
+//		else {
+//			_msg = 'content-bigger';
+//		}
+//		pubsub.publish('mbs.performlist.' + _msg + '.' + that._vars.id);
 	};
 
 	Performlist.prototype._startListeners = function() {

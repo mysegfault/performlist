@@ -1,6 +1,6 @@
 /* 
  * performlist: Performlist is an HTML5 library for making fast scrolling lists (like Contact list) 
- * v0.1.2 
+ * v0.1.4 
  * 
  * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist 
  * MIT Licence 
@@ -101,6 +101,9 @@ define([ "html5-mobile-boilerplate/helper", "pubsub-js/pubsub", "js-dom-tools/js
                 pubsub.publish("mbs.performlist.start." + that._vars.id);
             }
         });
+        if (typeof window.IScroll === "function" && typeof window.iScroll !== "function") {
+            window.iScroll = IScroll;
+        }
         this._loadPlugins();
     };
     Performlist.prototype.getListElement = function() {
@@ -113,13 +116,24 @@ define([ "html5-mobile-boilerplate/helper", "pubsub-js/pubsub", "js-dom-tools/js
     };
     Performlist.prototype.start = function() {
         var that = this;
-        try {
-            that._vars.iScrollInst = $(that._vars.listElement).data("iscroll");
-            if (typeof that._vars.iScrollInst === "undefined") {
-                that._vars.iScrollInst = null;
+        if (typeof window.iScroll === "function") {
+            var iScrollInst = null;
+            if (typeof that._vars.listElement.iScroll !== "undefined") {
+                if (that._vars.listElement.iScroll instanceof window.iScroll) {
+                    iScrollInst = that._vars.listElement.iScroll;
+                }
             }
-        } catch (e) {
-            that._vars.iScrollInst = null;
+            if (iScrollInst !== null && typeof $ === "function") {
+                iScrollInst = $(that._vars.listElement).data("iscroll");
+            }
+            if (iScrollInst instanceof window.iScroll) {
+                that._vars.iScrollInst = that._vars.listElement.iScroll = iScrollInst;
+            }
+        }
+        if (that._vars.iScrollInst === null) {
+            if (that._vars.listElement.classList.contains("browser-scroll") === false) {
+                that._vars.listElement.classList.add("browser-scroll");
+            }
         }
         that._listToListItemClick(that._vars.listElement);
         that._vars.scrollingStatusId = this._enableScrollingStatus();

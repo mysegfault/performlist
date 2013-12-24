@@ -92,9 +92,9 @@ textarea {
     -webkit-touch-callout: none;
 }
 
-.pressed {
+/*.pressed {
     background-color: rgba(0, 0, 0, 0.7);
-}
+}*/
 
 /* A hack for HTML5 contenteditable attribute on mobile */
 
