@@ -126,14 +126,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 
 		that.resize();
 
-		var rectCollection = that._vars.filterContainerElement.getClientRects();
-		if (rectCollection.length === 0) {
-			console.error('Could not get pageX position');
-		}
-		else {
-			that._vars.filterContainerElementTop = rectCollection[0].top;
-		}
-
+		that._vars.filterContainerElementTop = jsDomTools.getOffsetSum(that._vars.filterContainerElement).top;
 	};
 
 	Filter.prototype.stop = function() {
@@ -413,12 +406,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			that._vars.iScrollInst.scrollTo(0, -6, 0, true);
 		}
 		else {
-			var _to = _titleElement.offsetTop;
-			if (typeof _titleElement.offsetParent === 'object' && typeof _titleElement.offsetParent.offsetTop === 'number') {
-				if (_to === 0 && _titleElement.offsetParent.offsetTop !== 0) {
-					_to = _titleElement.offsetParent.offsetTop;
-				}
-			}
+			var _to = jsDomTools.getOffsetSum(_titleElement).top - that._vars.filterContainerElementTop - 6;
 
 			if (that._options.useAnimatedScrolling === true && forceAnimation === true) {
 				var _from = that._vars.listElement.scrollTop;
