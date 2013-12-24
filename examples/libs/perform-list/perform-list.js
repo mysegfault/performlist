@@ -298,7 +298,7 @@ define([ "html5-mobile-boilerplate/helper", "pubsub-js/pubsub", "js-dom-tools/js
                         that._vars.listElement.removeAttribute("is-scrolling");
                     }, 300);
                 } else {
-                    that._vars.listElement.setAttribute("is-scrolling");
+                    that._vars.listElement.setAttribute("is-scrolling", "");
                 }
             }
             lastScrollTop = currentScrollTop;

@@ -1,3 +1,11 @@
+/*
+ * JavaScript DOM tools library
+ * 2013-12-20
+ *
+ * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/js-dom-tools
+ * 
+ * MIT Licence
+ */
 
 define([], function() {
 
@@ -122,6 +130,18 @@ define([], function() {
 		return totalLength;
 	}
 
+	function getOffsetSum(elem) {
+		var top = 0, left = 0;
+
+		while (elem) {
+			top = top + parseInt(elem.offsetTop);
+			left = left + parseInt(elem.offsetLeft);
+			elem = elem.offsetParent;
+		}
+
+		return {top: top, left: left};
+	}
+
 	return {
 		loadAsyncScript: loadAsyncScript,
 		loadAsyncCss: loadAsyncCss,
@@ -129,6 +149,7 @@ define([], function() {
 		findParentNodeWithClassName: findParentNodeWithClassName,
 		findParentNodeWithAttribute: findParentNodeWithAttribute,
 		useDebug: useDebug,
-		objectTotalLength: objectTotalLength
+		objectTotalLength: objectTotalLength,
+		getOffsetSum: getOffsetSum
 	};
 });

@@ -406,7 +406,12 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			that._vars.iScrollInst.scrollTo(0, -6, 0, true);
 		}
 		else {
-			var _to = jsDomTools.getOffsetSum(_titleElement).top - that._vars.filterContainerElementTop - 6;
+			var _to = jsDomTools.getOffsetSum(_titleElement).top - that._vars.filterContainerElementTop - 3;
+			
+			// first item selection could be negative
+			if (_to <= 0) {
+				_to = 1;
+			}
 
 			if (that._options.useAnimatedScrolling === true && forceAnimation === true) {
 				var _from = that._vars.listElement.scrollTop;
