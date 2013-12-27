@@ -1,6 +1,6 @@
 /* 
  * performlist: Performlist is an HTML5 library for making fast scrolling lists (like Contact list) 
- * v0.1.4 
+ * v0.1.5 
  * 
  * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist 
  * MIT Licence 
@@ -361,10 +361,7 @@ define([ "raf.js/raf.min", "tweenjs/tween.min", "pubsub-js/pubsub", "js-dom-tool
                 console.error("Invalid filter");
                 continue;
             }
-            var offset = titleElement.offsetTop;
-            if (typeof titleElement.offsetParent === "object" && typeof titleElement.offsetParent.offsetTop === "number") {
-                offset = titleElement.offsetParent.offsetTop;
-            }
+            var offset = jsDomTools.getOffsetSum(titleElement).top;
             while (_cpt <= offset) {
                 that._vars.indexesTopTitles[_cpt] = i === 0 ? 0 : i - 1;
                 _cpt++;

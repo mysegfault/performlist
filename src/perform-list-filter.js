@@ -482,12 +482,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 				console.error('Invalid filter');
 				continue;
 			}
-
-			var offset = titleElement.offsetTop;
-			if (typeof titleElement.offsetParent === 'object' && typeof titleElement.offsetParent.offsetTop === 'number') {
-				offset = titleElement.offsetParent.offsetTop;
-			}
-
+			var offset = jsDomTools.getOffsetSum(titleElement).top;
 			while (_cpt <= offset) {
 				that._vars.indexesTopTitles[_cpt] = (i === 0 ? 0 : i - 1);
 				_cpt++;
