@@ -1,3 +1,7 @@
+# v0.1.6
+
+* Remove selector opacity animation (no meaning for animation)
+
 # v0.1.5
 
 * Fix JS error when calculating selector offset

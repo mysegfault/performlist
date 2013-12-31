@@ -1,6 +1,6 @@
 /* 
  * performlist: Performlist is an HTML5 library for making fast scrolling lists (like Contact list) 
- * v0.1.5 
+ * v0.1.6 
  * 
  * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist 
  * MIT Licence 
@@ -211,7 +211,6 @@ define([ "raf.js/raf.min", "tweenjs/tween.min", "pubsub-js/pubsub", "js-dom-tool
         var that = this;
         var parentNode = that._vars.listElement.parentNode;
         if (parentNode.querySelector(".perform-list-filters") === null) {
-            that._vars.filterContainerElement.style.opacity = 0;
             parentNode.insertBefore(that._vars.filterContainerElement, that._vars.listElement);
             that._vars.filterContainerElement.style.width = that._options.filterWidth + "px";
         }
@@ -273,14 +272,8 @@ define([ "raf.js/raf.min", "tweenjs/tween.min", "pubsub-js/pubsub", "js-dom-tool
             console.error("Not ready yet.");
             return;
         }
-        that._vars.filterContainerElement.style.transition = "";
-        that._vars.filterContainerElement.style.opacity = 0;
         that._updateFiltersList();
         that._insertFilterContainerElement();
-        that._vars.filterContainerElement.style.transition = "opacity .7s ease";
-        window.setTimeout(function() {
-            that._vars.filterContainerElement.style.opacity = 1;
-        }, 0);
     };
     Filter.prototype._goToListTitle = function(letter, forceAnimation) {
         var that = this;

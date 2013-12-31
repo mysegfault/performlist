@@ -83,8 +83,6 @@ body {
 	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 	box-orient: vertical;
-
-	/*transition: top .3s ease-in-out, opacity 2s ease;*/
 }
 
 .perform-list .perform-list-filters-button {

@@ -276,7 +276,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 
 		var parentNode = that._vars.listElement.parentNode;
 		if (parentNode.querySelector('.perform-list-filters') === null) {
-			that._vars.filterContainerElement.style.opacity = 0;
 			parentNode.insertBefore(that._vars.filterContainerElement, that._vars.listElement);
 			that._vars.filterContainerElement.style.width = that._options.filterWidth + 'px';
 		}
@@ -361,9 +360,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			return;
 		}
 
-		that._vars.filterContainerElement.style.transition = '';
-		that._vars.filterContainerElement.style.opacity = 0;
-
 		that._updateFiltersList();
 
 		that._insertFilterContainerElement();
@@ -371,11 +367,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		// update current active item (because resize could have changed the position
 //		var event = new Event('scroll');
 //		that._vars.listElement.dispatchEvent(event);
-
-		that._vars.filterContainerElement.style.transition = 'opacity .7s ease';
-		window.setTimeout(function() {
-			that._vars.filterContainerElement.style.opacity = 1;
-		}, 0);
 	};
 
 	Filter.prototype._goToListTitle = function(letter, forceAnimation) {
