@@ -9,9 +9,9 @@ module.exports = function(grunt) {
 			options: {
 				banner: banner,
 				report: 'min',
-				beautify: true,
-				compress: false,
-				mangle: false
+				beautify: false,
+				compress: true,
+				mangle: true
 			},
 			min: {
 				files: [{

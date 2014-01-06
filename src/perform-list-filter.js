@@ -33,6 +33,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			pubsubTokens: [],
 			iScrollInst: null,
 			filterContainerElementTop: 0,
+			isStarted: false,
 			end: ''
 		};
 
@@ -68,13 +69,21 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 
 		that._vars.pubsubTokens.push(
 			pubsub.subscribe('mbs.performlist.start.' + that._vars.id, function() {
+				if (that._vars.isStarted === true) {
+					return;
+				}
 				that.start();
+				that._vars.isStarted = true;
 			})
 		);
 
 		that._vars.pubsubTokens.push(
 			pubsub.subscribe('mbs.performlist.stop.' + that._vars.id, function() {
+				if (that._vars.isStarted === false) {
+					return;
+				}
 				that.stop();
+				that._vars.isStarted = false;
 			})
 		);
 
@@ -108,7 +117,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 	};
 
 	Filter.prototype.start = function() {
-//		console.log('Filter.prototype.start!!');
 		var that = this;
 
 		if (typeof window.iScroll === 'function' && that._vars.listElement.iScroll instanceof window.iScroll) {
@@ -123,11 +131,8 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 	};
 
 	Filter.prototype.stop = function() {
-		//console.log('Filter.prototype.stop!!');
-//		var that = this;
-
-		// disabled for now: we always keep the events listeners !
-//		that._stopListenersOnFilterContainerElement();
+		var that = this;
+		that._stopListenersOnFilterContainerElement();
 	};
 
 	Filter.prototype.destroy = function() {

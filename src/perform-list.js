@@ -41,6 +41,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			id: 0,
 			fastButtonListInst: null,
 			iScrollInst: null,
+			isStarted: false,
 			end: ''
 		};
 	};
@@ -106,11 +107,19 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		that._vars.listElement.classList.add(that._options.cssPrefix);
 
 		pubsub.subscribe('mbs.performlist.start.' + that._vars.id, function() {
+			if (that._vars.isStarted === true) {
+				return;
+			}
 			that.start();
+			that._vars.isStarted = true;
 		});
 
 		pubsub.subscribe('mbs.performlist.stop.' + that._vars.id, function() {
+			if (that._vars.isStarted === false) {
+				return;
+			}
 			that.stop();
+			that._vars.isStarted = false;
 		});
 
 		pubsub.subscribe('mbs.performlist.ready.' + that._vars.id, function() {
@@ -188,6 +197,8 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		if (that._vars.scrollingStatusId > 0) {
 			window.clearInterval(that._vars.scrollingStatusId);
 		}
+		
+		that._vars.listElement.removeEventListener("resize", that._vars._cb_afterListResize, false);
 
 		that._stopListeners();
 	};

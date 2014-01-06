@@ -1,3 +1,10 @@
+# v0.1.7
+
+* Make sure we can only start the performlist once
+* on stop() remove all events launched at start()
+* Use another polyfill for using DOM classList feature
+* Compress more "dist" files
+
 # v0.1.6
 
 * Remove selector opacity animation (no meaning for animation)

@@ -22,7 +22,7 @@ MIT (https://github.com/mysegfault/performlist/blob/master/LICENSE)
 * AMD ready
 * Asynchronious data loading
 * SAP (Single Application Page) ready
-* CSS / JS non obstructive
+* CSS / JS non obstructive (so it doesn't break your existing code)
 * Use broadcast signal (pub/sub) design
 * Compatible with iScroll lists
 * Auto resizeable
@@ -35,8 +35,9 @@ MIT (https://github.com/mysegfault/performlist/blob/master/LICENSE)
 * raf.js (git://github.com/ngryman/raf.js.git)
 * html5-mobile-boilerplate (git://github.com/h5bp/mobile-boilerplate.git)
 
-Optional (for better browser support):
-* classList (git://github.com/eligrey/classList.js.git)
+Optional (for better browser support like Android 2):
+* "html5-polyfills" bower package. (git://github.com/remy/polyfills.git)
+** use classList.js
 
 ## Install
 
