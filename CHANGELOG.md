@@ -4,6 +4,7 @@
 * on stop() remove all events launched at start()
 * Use another polyfill for using DOM classList feature
 * Compress more "dist" files
+* Update documentation
 
 # v0.1.6
 
