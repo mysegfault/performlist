@@ -1,6 +1,5 @@
 define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(raf, tweenjs, pubsub, jsDomTools) {
 	'use strict';
-	var console = jsDomTools.useDebug(false);
 
 	var Filter = function() {
 		var that = this;

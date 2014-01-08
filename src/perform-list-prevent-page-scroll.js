@@ -1,6 +1,5 @@
 define(['js-dom-tools/js-dom-tools'], function(jsDomTools) {
 	'use strict';
-	var console = jsDomTools.useDebug(false);
 
 	var preventScrollingOnThis = function(element) {
 		//console.log('preventScrollingOnThis', element);
@@ -28,12 +27,12 @@ define(['js-dom-tools/js-dom-tools'], function(jsDomTools) {
 			var parentNode = jsDomTools.findParentNodeWithClassName(event.target, 'perform-list');
 			if (parentNode !== null) {
 				if (event.touches.length === 1) {
-					console.log('*** ACCEPTED **** ', event.target.nodeName, event.target.classList);
+					//console.log('*** ACCEPTED **** ', event.target.nodeName, event.target.classList);
 					return;
 				}
 			}
 
-			console.log('--preventScroll: ', event.target, event.target.parentNode.nodeName);
+			//console.log('--preventScroll: ', event.target, event.target.parentNode.nodeName);
 			event.preventDefault();
 		}, false);
 	};

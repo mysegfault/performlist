@@ -1,7 +1,6 @@
 define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(helper, pubsub, jsDomTools) {
 	'use strict';
-	var console = jsDomTools.useDebug(false);
-
+	
 	var Optimizer = function() {
 		var that = this;
 

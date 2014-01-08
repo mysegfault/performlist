@@ -1,6 +1,5 @@
 define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(helper, pubsub, jsDomTools) {
 	'use strict';
-	var console = jsDomTools.useDebug(false);
 
 	var Performlist = function() {
 		var that = this;
@@ -442,7 +441,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			if (event.type !== eventType) {
 				event.preventDefault();
 				event.stopPropagation();
-				console.log('--- event canceled! (not ' + eventType + ') ---');
+				//console.log('--- event canceled! (not ' + eventType + ') ---');
 				return;
 			}
 
@@ -455,13 +454,13 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				//console.log('is-disabled: ' + isDisabled + ' ' + _listContainerElement.className);
 
 				if (isScrolling === true) {
-					console.log('--- event canceled! (scrolling) ---');
+					//console.log('--- event canceled! (scrolling) ---');
 					event.preventDefault();
 					event.stopPropagation();
 					return;
 				}
 				if (isDisabled === true) {
-					console.log('--- event canceled! (disabled) ---');
+					//console.log('--- event canceled! (disabled) ---');
 					event.preventDefault();
 					event.stopPropagation();
 					return;
