@@ -35,6 +35,11 @@ body {
 
 .perform-list-container-parent {
 	position: relative;
+	/*
+	Set the background color here for initializing the color
+	so when the selectors will open, there will be no flash.
+	*/
+	background-color: black;
 }
 
 .perform-list.perform-list-container {
@@ -75,7 +80,6 @@ body {
 	/* defined from the JS -> width: 26px;*/
 	text-align: center;
 	color: white;
-	background-color: black;
 
 	display: box;
 	display: -webkit-box;

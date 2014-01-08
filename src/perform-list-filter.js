@@ -64,12 +64,18 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		that._vars.pubsubTokens.push(
 			pubsub.subscribe('mbs.performlist.ready.' + that._vars.id, function() {
 				that.ready();
+				that._vars.isReady = true;
 			})
 		);
 
 		that._vars.pubsubTokens.push(
 			pubsub.subscribe('mbs.performlist.start.' + that._vars.id, function() {
+				if (that._vars.isReady === false) {
+					console.error('Try to start filters but not ready yet.');
+					return;
+				}
 				if (that._vars.isStarted === true) {
+					console.error('Try to start but already started.');
 					return;
 				}
 				that.start();
@@ -80,6 +86,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		that._vars.pubsubTokens.push(
 			pubsub.subscribe('mbs.performlist.stop.' + that._vars.id, function() {
 				if (that._vars.isStarted === false) {
+					console.error('Try to stop but no yet started.');
 					return;
 				}
 				that.stop();
@@ -108,12 +115,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			return;
 		}
 
-		// as soon as possible add the padding !
-		that._addListSpaceForFilterElement();
-
 		that._buildFilterContainerElement();
-
-		that._vars.isReady = true;
 	};
 
 	Filter.prototype.start = function() {
@@ -262,10 +264,8 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		that._vars.titleElements = titleElements;
 	};
 
-	// PRIVATE METHODS //
-
 	// add right margin for displaying letters
-	Filter.prototype._addListSpaceForFilterElement = function() {
+	Filter.prototype.addListSpaceForFilterElement = function() {
 		var that = this;
 
 		if (that._vars.listElement === null) {
@@ -275,6 +275,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		that._vars.listElement.style.marginRight = that._options.filterWidth + 'px';
 	};
 
+	// PRIVATE METHODS //
 	Filter.prototype._insertFilterContainerElement = function() {
 		//console.log('Filter.prototype._insertFilterContainerElement!');
 		var that = this;

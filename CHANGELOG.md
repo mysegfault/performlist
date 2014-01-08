@@ -1,3 +1,8 @@
+# v0.1.8
+
+* Move the background color into the main parent element (feels slugish otherwise)
+* Make the selectors appears faster
+
 # v0.1.7
 
 * Make sure we can only start the performlist once

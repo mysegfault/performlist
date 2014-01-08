@@ -197,7 +197,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		if (that._vars.scrollingStatusId > 0) {
 			window.clearInterval(that._vars.scrollingStatusId);
 		}
-		
+
 		that._vars.listElement.removeEventListener("resize", that._vars._cb_afterListResize, false);
 
 		that._stopListeners();
@@ -238,6 +238,9 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				that._options.itemType = 'dd';
 			}
 			this._buildItemsAsObject(items);
+			if (that._vars.filter !== null) {
+				that._vars.filter.addListSpaceForFilterElement(_titleElements);
+			}
 		}
 		else {
 			console.error('Provided data is not an array not an object');
