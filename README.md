@@ -85,3 +85,4 @@ And also work with iScroll lists.
 iScroll is recommanded for iOS devices + old Android devices.
 
 Feedback / comments are welcomed !! :D
+
