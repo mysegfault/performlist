@@ -1,3 +1,13 @@
+
+# v0.1.10
+
+* trigger a 'resize' event callback call to initialize the list + selector height
+* add an option : a max item size where selectors are not displayed (because the list is too small so we don't need the selectors)
+
+# v0.1.9
+
+* Remove jsdomtools.useDebug() because this sometimes falls on iOS (?)
+
 # v0.1.8
 
 * Move the background color into the main parent element (feels slugish otherwise)

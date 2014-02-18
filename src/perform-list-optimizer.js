@@ -1,4 +1,4 @@
-define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(helper, pubsub, jsDomTools) {
+define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(helper, pubsub) {
 	'use strict';
 	
 	var Optimizer = function() {

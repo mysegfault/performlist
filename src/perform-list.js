@@ -22,6 +22,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			useFilters: true,
 			usePreventPageScroller: false,
 			autoStartAfterReady: true,
+			minItemsForFilters: 29,
 			end: ''
 		};
 
@@ -129,7 +130,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 		// iScroll4 / 5 detection
 		if (typeof window.IScroll === 'function' && typeof window.iScroll !== 'function') {
-			window.iScroll = IScroll;
+			window.iScroll = window.IScroll;
 		}
 
 		this._loadPlugins();
@@ -236,10 +237,17 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				that._options.titleType = 'dt';
 				that._options.itemType = 'dd';
 			}
-			this._buildItemsAsObject(items);
+
+			if (jsDomTools.objectTotalLength(items) < that._options.minItemsForFilters && that._vars.filter !== null) {
+				that._vars.filter.destroy();
+				that._vars.filter = null;
+			}
+
 			if (that._vars.filter !== null) {
 				that._vars.filter.addListSpaceForFilterElement(_titleElements);
 			}
+
+			this._buildItemsAsObject(items);
 		}
 		else {
 			console.error('Provided data is not an array not an object');
@@ -320,7 +328,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		for (var title in items) {
 			var _fragment = document.createDocumentFragment();
 			var _titleNode = _titleNodeTemplate.cloneNode();
-			if (that._options.useFilters === true) {
+			if (that._vars.filter !== null) {
 				_titleNode.innerHTML = that._vars.filter.createTitleHTML(title);
 				that._vars.filter.addTitleItem(title);
 			}
@@ -580,36 +588,39 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		var _onResizeParams = {
 			width: 0, height: 0
 		};
-		that._vars._cb_afterWindowResize = function() {
 
+		var checkIfResize = function() {
+			if (that._vars.listElement === null) {
+				return;
+			}
+
+			var cs = window.getComputedStyle(that._vars.listElement, null);
+			var needRefresh = false;
+
+			if (_onResizeParams.width !== cs.width) {
+				needRefresh = true;
+				_onResizeParams.width = cs.width;
+			}
+			if (_onResizeParams.height !== cs.height) {
+				needRefresh = true;
+				_onResizeParams.height = cs.height;
+			}
+			if (needRefresh === true) {
+				pubsub.publish('mbs.performlist.resize.' + that._vars.id);
+			}
+		};
+
+		that._vars._cb_afterWindowResize = function() {
 			if (_onResizeTimerId > 0) {
 				window.clearTimeout(_onResizeTimerId);
 				_onResizeTimerId = 0;
 			}
-
-			_onResizeTimerId = window.setTimeout(function() {
-
-				if (that._vars.listElement === null) {
-					return;
-				}
-
-				var cs = window.getComputedStyle(that._vars.listElement, null);
-				var needRefresh = false;
-
-				if (_onResizeParams.width !== cs.width) {
-					needRefresh = true;
-					_onResizeParams.width = cs.width;
-				}
-				if (_onResizeParams.height !== cs.height) {
-					needRefresh = true;
-					_onResizeParams.height = cs.height;
-				}
-				if (needRefresh === true) {
-					pubsub.publish('mbs.performlist.resize.' + that._vars.id);
-				}
-			}, 500);
+			_onResizeTimerId = window.setTimeout(checkIfResize, 500);
 		};
 		window.addEventListener('resize', that._vars._cb_afterWindowResize, false);
+
+		// trigger a 'resize' event callback call to initialize the list
+		that._vars._cb_afterWindowResize();
 	};
 
 	Performlist.prototype._stopListeners = function() {

@@ -118,6 +118,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 	};
 
 	Filter.prototype.start = function() {
+		//console.log('Filter.prototype.start!!');
 		var that = this;
 
 		if (typeof window.iScroll === 'function' && that._vars.listElement.iScroll instanceof window.iScroll) {

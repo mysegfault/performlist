@@ -70,7 +70,8 @@
 
 			var listTop = new PerformList();
 			var optionsTop = {
-				listContainerElement: document.querySelector('[data-id=perform-list-top]')
+				listContainerElement: document.querySelector('[data-id=perform-list-top]'),
+				minItemsForFilters: 1
 			};
 			listTop.init(optionsTop);
 
@@ -85,7 +86,8 @@
 			
 			var listBottom = new PerformList();
 			var optionsBottom = {
-				listContainerElement: document.querySelector('[data-id=perform-list-bottom]')
+				listContainerElement: document.querySelector('[data-id=perform-list-bottom]'),
+				minItemsForFilters: 1
 			};
 			listBottom.init(optionsBottom);
 			pubsub.subscribe('mbs.performlist.initialized.' + listBottom.getId(), function() {
@@ -100,7 +102,8 @@
 			var listBottomNs = new PerformList();
 			var optionsBottomNs = {
 				listContainerElement: document.querySelector('[data-id=perform-list-bottom-ns]'),
-				useFilters: false
+				useFilters: false,
+				minItemsForFilters: 1
 			};
 			listBottomNs.init(optionsBottomNs);
 			pubsub.subscribe('mbs.performlist.initialized.' + listBottomNs.getId(), function() {
