@@ -38,6 +38,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			pluginsToLoad: [],
 			isIOS: false,
 			isAndroid: false,
+			isAndroidStockBrowser: false,
 			id: 0,
 			fastButtonListInst: null,
 			iScrollInst: null,
@@ -59,6 +60,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 		that._vars.isIOS = (window.navigator.userAgent.match(/OS .+_.* like/) !== null);
 		that._vars.isAndroid = (window.navigator.userAgent.match(/Android/) !== null);
+		that._vars.isAndroidStockBrowser = (window.navigator.userAgent.match(/ Version\//) !== null);
 		that._options.usePreventPageScroller = (that._vars.isIOS === true);
 
 		if (typeof options === 'object') {
@@ -101,7 +103,12 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			that._vars.listElement.classList.add('os-is-ios');
 		}
 		if (that._vars.isAndroid === true) {
-			that._vars.listElement.classList.add('os-is-android');
+			// With the 3D acceleration the scrolling is nicer... 
+			// but it gets very slow on Android default browser.
+			// so disable acceleration for it
+			if (that._vars.isAndroidStockBrowser === false) {
+				that._vars.listElement.classList.add('os-is-android');
+			}
 		}
 
 		that._vars.listElement.classList.add(that._options.cssPrefix);
@@ -441,7 +448,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 	Performlist.prototype._listToListItemClick = function(element) {
 		var that = this;
 
-		var isTouchSupported = "ontouchend" in document;
+		var isTouchSupported = 'ontouchend' in document;
 		var eventType = (isTouchSupported === true) ? 'touchend' : 'click';
 
 		function onListClick(event) {
