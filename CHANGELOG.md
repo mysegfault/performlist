@@ -1,4 +1,9 @@
 
+# v0.1.12
+
+* Remove dependency to "html5-mobile-boilerplate" project, which is no more a bower project
+  So you need to download it 'by hand' for now
+
 # v0.1.11
 
 * Do not set a limit of minimum items without showing the letters but make it configurable
