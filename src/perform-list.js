@@ -22,7 +22,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			useFilters: true,
 			usePreventPageScroller: false,
 			autoStartAfterReady: true,
-			minItemsForFilters: 29,
+			minItemsForFilters: null,
 			end: ''
 		};
 
@@ -245,7 +245,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				that._options.itemType = 'dd';
 			}
 
-			if (jsDomTools.objectTotalLength(items) < that._options.minItemsForFilters && that._vars.filter !== null) {
+			if (that._vars.filter !== null && typeof that._options.minItemsForFilters === 'number' && jsDomTools.objectTotalLength(items) < that._options.minItemsForFilters) {
 				that._vars.filter.destroy();
 				that._vars.filter = null;
 			}
