@@ -198,10 +198,13 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 
 		function _onTouchStart(event) {
-			// Android bug! needed for activating multiple touchmove
-			if (that._vars.isAndroid === true) {
-				event.preventDefault();
-			}
+			//console.log('_onTouchStart: ', event.target.nodeName.toLowerCase(), event.type);
+
+			// Is supposed to fix the multiple trigger of touchmove event
+			// but this is not good to activate this.
+			//if (that._vars.isAndroid === true) {
+				//event.preventDefault();
+			//}
 
 			if (that._vars.iScrollInst === null) {
 				// Stop the scroller !!
@@ -216,11 +219,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 
 		function _onTouchMove(event) {
-			//console.log('_onTouchMove: ', event.target.nodeName.toLowerCase(), event.target.innerHTML);
-
-			// TODO: check if useful ? I think so, because there won't be
-			// any move on the parent
-			//event.preventDefault();
+			//console.log('_onTouchMove: ', event.target.nodeName.toLowerCase(), event.type);
 
 			if (event.target.nodeName.toLowerCase() !== 'button') {
 				return;
@@ -232,17 +231,22 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			}
 		}
 
-		that._vars.eventCallbacks.touchstart = {parent: that._vars.filterContainerElement, callback: _onTouchStart};
-		that._vars.filterContainerElement.addEventListener('touchstart', _onTouchStart, false);
+		var isTouchSupported = 'ontouchend' in document;
+		if (isTouchSupported === true) {
+			that._vars.eventCallbacks.touchstart = {parent: that._vars.filterContainerElement, callback: _onTouchStart};
+			that._vars.filterContainerElement.addEventListener('touchstart', _onTouchStart, false);
 
-		that._vars.eventCallbacks.touchmove = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
-		that._vars.filterContainerElement.addEventListener('touchmove', _onTouchMove, false);
+			that._vars.eventCallbacks.touchmove = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
+			that._vars.filterContainerElement.addEventListener('touchmove', _onTouchMove, false);
 
-		that._vars.eventCallbacks.touchend = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
-		that._vars.filterContainerElement.addEventListener('touchend', _onTouchMove, false);
+			that._vars.eventCallbacks.touchend = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
+			that._vars.filterContainerElement.addEventListener('touchend', _onTouchMove, false);
+		}
+		else {
+			that._vars.eventCallbacks.click = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
+			that._vars.filterContainerElement.addEventListener('click', _onTouchMove, false);
+		}
 
-		that._vars.eventCallbacks.click = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
-		that._vars.filterContainerElement.addEventListener('click', _onTouchMove, false);
 	};
 
 	Filter.prototype._stopListenersOnFilterContainerElement = function() {
@@ -439,6 +443,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 	};
 
+	/*
 	Filter.prototype._hoverFilter = function(selectedFilterElement) {
 		var that = this;
 
@@ -457,6 +462,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 		selectedFilterElement.classList.add('hover');
 	};
+	*/
 
 	Filter.prototype._getIndexesTopTitles = function() {
 		//console.log('Filter.prototype._getIndexesTopTitles');
@@ -487,7 +493,8 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 		that._vars.isBuildingOnScrollItems = false;
 	};
-
+	
+	/* disabled for now
 	Filter.prototype._onListScroll = function(event) {
 		//console.log('Filter.prototype._onListScroll');
 		var that = this;
@@ -525,6 +532,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 //		console.log('idx: ', idx, scrollTop, that._vars.filterElements[idx]);
 		that._hoverFilter(that._vars.filterElements[idx]);
 	};
+	*/
 
 	Filter.prototype._getCurrentItem = function(event) {
 		//console.log('Filter.prototype._getCurrentItem!', event);
