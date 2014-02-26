@@ -1,4 +1,12 @@
 
+# v0.1.11
+
+* Do not set a limit of minimum items without showing the letters but make it configurable
+* Do not mix click and touch(start/move/end) events
+* Do not preventDefault() touchstart (was here because of an Android Default Browser bug, but does not really fix it)
+* Comment unused code
+* Disable 3D animation for Android Stock Browser because the perf is really bad with this browser
+
 # v0.1.10
 
 * trigger a 'resize' event callback call to initialize the list + selector height
