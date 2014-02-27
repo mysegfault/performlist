@@ -171,7 +171,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		function createFilterContainerElement() {
 			var _element = document.createElement('div');
 			_element.classList.add('perform-list-filters');
-			_element.classList.add('perform-list');
 			var html = '';
 			for (var i = 0; i < that._vars.titleItems.length; i++) {
 				var index = that._vars.titleItems[i];

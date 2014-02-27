@@ -28,11 +28,6 @@ body {
 	-ms-touch-action: none !important;
 }
 
-.perform-list button {
-	border: 0;
-	cursor: pointer;
-}
-
 .perform-list-container-parent {
 	position: relative;
 	/*
@@ -71,7 +66,7 @@ body {
 	text-overflow: ellipsis;
 }
 
-.perform-list.perform-list-filters {
+.perform-list-filters {
 	margin: 0px;
 	position: absolute;
 	top: 0px;
@@ -89,7 +84,9 @@ body {
 	box-orient: vertical;
 }
 
-.perform-list .perform-list-filters-button {
+.perform-list-filters-button {
+	border: 0;
+	cursor: pointer;
 	background: transparent;
 	color: white;
 	text-decoration: none;
@@ -102,10 +99,14 @@ body {
 	-webkit-box-flex: 1;
 }
 
-.perform-list .perform-list-filters-button.hover {
+.perform-list-filters-button.hover {
 	color: #FFD901;
 	font-weight: 500;
 	font-size: 1em;
+}
+
+.perform-list-filters-button.hidden {
+	display: none !important;
 }
 
 /* 3D animations filters */
@@ -126,9 +127,6 @@ body {
 }
 .perform-list .padding-all-little {
 	padding: 5px;
-}
-.perform-list .hidden {
-	display: none !important;
 }
 .perform-list .display-inline-block {
 	display: inline-block;
