@@ -1,4 +1,9 @@
 
+# v0.1.13
+
+* Fix for some Android devices when letters didn't display correctly
+* Cleanup code
+
 # v0.1.12
 
 * Remove dependency to "html5-mobile-boilerplate" project, which is no more a bower project
