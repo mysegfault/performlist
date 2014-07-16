@@ -62,7 +62,6 @@ require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList,
 				pubsub.subscribe('mbs.performlist.ready.' + id, function() {
 
 					var isIOS = (window.navigator.userAgent.match(/OS .+_.* like/) !== null);
-					var isIOS = true;
 					if (isIOS === true) {
 						require(['iscroll4/iscroll'], function() {
 							var listContainer = document.querySelector('.perform-list-container');
