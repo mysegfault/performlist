@@ -1,4 +1,8 @@
 
+# v0.1.14
+
+* Fix when sliding on letters on Windows Phone
+
 # v0.1.13
 
 * Fix for some Android devices when letters didn't display correctly

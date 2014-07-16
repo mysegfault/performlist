@@ -231,15 +231,23 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 
 		var isTouchSupported = 'ontouchend' in document;
-		if (isTouchSupported === true) {
+		var isPointerSupported = (typeof window.navigator.msPointerEnabled !== 'undefined');
+
+		if (isTouchSupported === true || isPointerSupported === true) {
+			// Microsoft pointer
+			// @see http://blogs.windows.com/windows_phone/b/wpdev/archive/2012/11/15/adapting-your-webkit-optimized-site-for-internet-explorer-10.aspx#step4
+			var touchStartEventName = isPointerSupported === true ? 'MSPointerDown' : 'touchstart';
+			var touchMoveEventName = isPointerSupported === true ? 'MSPointerMove' : 'touchmove';
+			var touchEndEventName = isPointerSupported === true ? 'MSPointerUp' : 'touchend';
+
 			that._vars.eventCallbacks.touchstart = {parent: that._vars.filterContainerElement, callback: _onTouchStart};
-			that._vars.filterContainerElement.addEventListener('touchstart', _onTouchStart, false);
+			that._vars.filterContainerElement.addEventListener(touchStartEventName, _onTouchStart, false);
 
 			that._vars.eventCallbacks.touchmove = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
-			that._vars.filterContainerElement.addEventListener('touchmove', _onTouchMove, false);
+			that._vars.filterContainerElement.addEventListener(touchMoveEventName, _onTouchMove, false);
 
 			that._vars.eventCallbacks.touchend = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
-			that._vars.filterContainerElement.addEventListener('touchend', _onTouchMove, false);
+			that._vars.filterContainerElement.addEventListener(touchEndEventName, _onTouchMove, false);
 		}
 		else {
 			that._vars.eventCallbacks.click = {parent: that._vars.filterContainerElement, callback: _onTouchMove};
@@ -442,27 +450,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 	};
 
-	/*
-	Filter.prototype._hoverFilter = function(selectedFilterElement) {
-		var that = this;
-
-		if (typeof selectedFilterElement === 'undefined' || selectedFilterElement === null) {
-			console.error('Invalid parameter');
-			return false;
-		}
-
-		if (selectedFilterElement === that._vars.selectedFilterElement) {
-			return;
-		}
-		that._vars.selectedFilterElement = selectedFilterElement;
-
-		for (var j = 0; j < that._vars.filterElements.length; j++) {
-			that._vars.filterElements[j].classList.remove('hover');
-		}
-		selectedFilterElement.classList.add('hover');
-	};
-	*/
-
 	Filter.prototype._getIndexesTopTitles = function() {
 		//console.log('Filter.prototype._getIndexesTopTitles');
 		var that = this;
@@ -492,46 +479,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 		that._vars.isBuildingOnScrollItems = false;
 	};
-	
-	/* disabled for now
-	Filter.prototype._onListScroll = function(event) {
-		//console.log('Filter.prototype._onListScroll');
-		var that = this;
-
-		if (that._vars.isReady === false) {
-			console.error('Not ready yet.');
-			return;
-		}
-
-		// manual scrolling, don't need to update!
-		if (that._vars.isManualScrolling === true) {
-			return;
-		}
-		// not ready yet
-		if (that._vars.isBuildingOnScrollItems === true) {
-			return;
-		}
-
-		var scrollTop;
-		if (typeof event.target._scrollTop !== 'undefined') {
-			scrollTop = event.target._scrollTop + 4;
-		}
-		else {
-			scrollTop = event.target.scrollTop + 4;
-		}
-		var idx;
-
-		// if over, then select the last item
-		if (scrollTop >= that._vars.indexesTopTitles.length) {
-			idx = that._vars.titleElements.length - 1;
-		}
-		else {
-			idx = that._vars.indexesTopTitles[scrollTop];
-		}
-//		console.log('idx: ', idx, scrollTop, that._vars.filterElements[idx]);
-		that._hoverFilter(that._vars.filterElements[idx]);
-	};
-	*/
 
 	Filter.prototype._getCurrentItem = function(event) {
 		//console.log('Filter.prototype._getCurrentItem!', event);
@@ -544,6 +491,11 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 		else if (typeof event.changedTouches !== 'undefined' && event.changedTouches.length > 0) {
 			ref = event.changedTouches[0].pageY - that._vars.filterContainerElementTop;
+		}
+		else if (typeof event.pageY !== 'undefined') {
+			// Microsoft pointer
+			// @see http://blogs.windows.com/windows_phone/b/wpdev/archive/2012/11/15/adapting-your-webkit-optimized-site-for-internet-explorer-10.aspx#step4
+			ref = event.pageY - that._vars.filterContainerElementTop;
 		}
 
 		if (ref !== null) {
