@@ -9,7 +9,7 @@
 
 define([], function() {
 
-	function loadAsyncScript(src, id) {
+	function loadAsyncScript(src, id, callback) {
 		if (typeof src !== 'string') {
 			console.error('src parameter is invalid: [' + src + ']');
 			return;
@@ -20,10 +20,18 @@ define([], function() {
 		if (typeof id === 'string') {
 			tag.id = id;
 		}
+		
+		if (typeof callback === 'function') {
+			tag.addEventListener("load", function load(event) {
+				tag.removeEventListener("load", load, false);
+				callback(event);
+			}, false);
+		}
+		
 		document.body.appendChild(tag);
 	}
 
-	function loadAsyncCss(src) {
+	function loadAsyncCss(src, callback) {
 		if (typeof src !== 'string') {
 			console.error('src parameter is invalid: [' + src + ']');
 			return;
@@ -32,6 +40,14 @@ define([], function() {
 		tag.rel = 'stylesheet';
 		tag.href = src;
 		tag.async = true;
+
+		if (typeof callback === 'function') {
+			tag.addEventListener("load", function load(event) {
+				tag.removeEventListener("load", load, false);
+				callback(event);
+			}, false);
+		}
+
 		document.head.appendChild(tag);
 	}
 
@@ -99,21 +115,6 @@ define([], function() {
 		}
 	}
 
-	function useDebug(enabled) {
-		enabled = (enabled === true);
-		if (enabled === true) {
-			return console;
-		}
-
-		var localConsole = function() {
-		};
-		localConsole.log = function() {
-		};
-		localConsole.error = console.error;
-
-		return localConsole;
-	}
-
 	function objectTotalLength(object) {
 
 		if ('length' in object) {
@@ -142,14 +143,71 @@ define([], function() {
 		return {top: top, left: left};
 	}
 
+	function isEmpty(data) {
+		if (data === null || typeof data === 'undefined') {
+			return true;
+		}
+		if (typeof data.length === 'number' && data.length === 0) {
+			return true;
+		}
+		if (typeof data === 'string' && data.trim() === '') {
+			return true;
+		}
+		return false;
+	}
+
+	function getItemHeight(element) {
+		if (typeof element === 'undefined' || element === null) {
+			console.error('getItemHeight: item is invalid', element);
+			return 0;
+		}
+		var cs = window.getComputedStyle(element, null);
+		if (isEmpty(cs) === true) {
+			console.error('Could not get getComputedStyle of ', element);
+			return 0;
+		}
+		if (cs.height === 'auto') {
+			return 0;
+		}
+		var height = parseInt(cs.height.replace('px', ''));
+		if (isNaN(height) === true) {
+			console.error('getItemHeight: item height is invalid', element);
+			height = 0;
+		}
+		return height;
+	}
+
+	function getItemWidth(element) {
+		if (typeof element === 'undefined' || element === null) {
+			console.error('getItemHeight: item is invalid', element);
+			return 0;
+		}
+		var cs = window.getComputedStyle(element, null);
+		if (isEmpty(cs) === true) {
+			console.error('Could not get getComputedStyle of ', element);
+			return 0;
+		}
+		if (cs.width === 'auto') {
+			return 0;
+		}
+		var width = parseInt(cs.width.replace('px', ''));
+		if (isNaN(width) === true) {
+			console.error('getItemWidth: item width is invalid', element);
+			width = 0;
+		}
+		return width;
+	}
+
 	return {
 		loadAsyncScript: loadAsyncScript,
 		loadAsyncCss: loadAsyncCss,
 		findParentNodeWithNodeName: findParentNodeWithNodeName,
 		findParentNodeWithClassName: findParentNodeWithClassName,
 		findParentNodeWithAttribute: findParentNodeWithAttribute,
-		useDebug: useDebug,
 		objectTotalLength: objectTotalLength,
-		getOffsetSum: getOffsetSum
+		getOffsetSum: getOffsetSum,
+		isEmpty: isEmpty,
+		getItemHeight: getItemHeight,
+		getItemWidth: getItemWidth
 	};
 });
