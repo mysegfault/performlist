@@ -244,8 +244,8 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				that._options.itemType = 'dd';
 			}
 
-			if (typeof that._options.minItemsForFilters === 'number' && jsDomTools.objectTotalLength(items) >= that._options.minItemsForFilters) {
-				that._vars.filter = new that._vars.filterBuilder;
+			if (that._vars.filterBuilder !== null && typeof that._options.minItemsForFilters === 'number' && jsDomTools.objectTotalLength(items) >= that._options.minItemsForFilters) {
+				that._vars.filter = new that._vars.filterBuilder();
 				var options = {
 					id: that._vars.id,
 					listElement: that._vars.listElement,
@@ -274,9 +274,9 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			var _titleElements = that._vars.listElement.querySelectorAll(this._getClassName('category-title [data-letter]', true));
 			that._vars.filter.setTitleElements(_titleElements);
 		}
-		
+
 		pubsub.publish("mbs.performlist.ready." + that._vars.id);
-		
+
 		return true;
 	};
 
