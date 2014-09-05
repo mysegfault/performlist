@@ -18,17 +18,17 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			categoryTitleExtraClass: '',
 			categoryItemExtraClass: '',
 			itemType: 'li',
-			useOptimizer: true,
+			useOptimizer: false,
 			useFilters: true,
 			usePreventPageScroller: false,
 			autoStartAfterReady: true,
-			minItemsForFilters: null,
-			end: ''
+			minItemsForFilters: 0
 		};
 
 		that._vars = {
 			scrollingStatusId: 0,
 			optimizer: null,
+			filterBuilder: null,
 			filter: null,
 			preventPageScroller: null,
 			listItems: [],
@@ -42,8 +42,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			id: 0,
 			fastButtonListInst: null,
 			iScrollInst: null,
-			isStarted: false,
-			end: ''
+			isStarted: false
 		};
 	};
 
@@ -130,7 +129,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		});
 
 		pubsub.subscribe('mbs.performlist.ready.' + that._vars.id, function() {
-			if (that._options.autoStartAfterReady === true) {
+			if (that._options.autoStartAfterReady === true && that._vars.filter === null) {
 				pubsub.publish('mbs.performlist.start.' + that._vars.id);
 			}
 		});
@@ -224,17 +223,17 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 	Performlist.prototype.setData = function(items) {
 		var that = this;
 
+		that._vars.listItems = [];
+
+		if (that._vars.filter !== null) {
+			that._vars.filter.destroy();
+			that._vars.filter = null;
+		}
+
 		if (items instanceof Array) {
-			that._vars.itemsType = 'array';
-			that._options.categoryType = 'ul';
-			that._options.itemType = 'li';
-
-			// filters are only usefull with categories, not here
-			if (that._vars.filter !== null) {
-				that._vars.filter.destroy();
-				that._vars.filter = null;
-			}
-
+			that._vars.itemsType = "array";
+			that._options.categoryType = "ul";
+			that._options.itemType = "li";
 			this._buildItemsAsArray(items);
 		}
 		else if (items instanceof Object) {
@@ -245,15 +244,16 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				that._options.itemType = 'dd';
 			}
 
-			if (that._vars.filter !== null && typeof that._options.minItemsForFilters === 'number' && jsDomTools.objectTotalLength(items) < that._options.minItemsForFilters) {
-				that._vars.filter.destroy();
-				that._vars.filter = null;
+			if (typeof that._options.minItemsForFilters === 'number' && jsDomTools.objectTotalLength(items) >= that._options.minItemsForFilters) {
+				that._vars.filter = new that._vars.filterBuilder;
+				var options = {
+					id: that._vars.id,
+					listElement: that._vars.listElement,
+					autoStartAfterReady: that._options.autoStartAfterReady
+				};
+				that._vars.filter.init(options);
+				that._vars.filter.addListSpaceForFilterElement();
 			}
-
-			if (that._vars.filter !== null) {
-				that._vars.filter.addListSpaceForFilterElement(_titleElements);
-			}
-
 			this._buildItemsAsObject(items);
 		}
 		else {
@@ -274,7 +274,9 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			var _titleElements = that._vars.listElement.querySelectorAll(this._getClassName('category-title [data-letter]', true));
 			that._vars.filter.setTitleElements(_titleElements);
 		}
-
+		
+		pubsub.publish("mbs.performlist.ready." + that._vars.id);
+		
 		return true;
 	};
 
@@ -369,9 +371,9 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		if (that._options.listScrollerExtraClass !== '') {
 			_itemParentElement.classList.add(that._options.listScrollerExtraClass);
 		}
-		_itemParentElement.innerHTML = 'Building...';
+		_itemParentElement.innerHTML = '<p class="perform-list-labels">Building...</p>';
 
-		that._vars.listElement.innerText = '';
+		that._vars.listElement.innerHTML = '';
 		that._vars.listElement.appendChild(_itemParentElement);
 
 		if (that._vars.preventPageScroller !== null) {
@@ -397,8 +399,6 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		// one shot DOM update
 		that._vars.scrollerElement.innerHTML = '';
 		that._vars.scrollerElement.appendChild(_fragment);
-
-		pubsub.publish('mbs.performlist.ready.' + that._vars.id);
 	};
 
 	Performlist.prototype._enableScrollingStatus = function() {
@@ -524,12 +524,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		if (that._options.useFilters === true) {
 			_hasNoPlugin = false;
 			require(['perform-list/perform-list-filter'], function(FilterBuilder) {
-				that._vars.filter = new FilterBuilder();
-				var __options = {
-					'id': that._vars.id,
-					'listElement': that._vars.listElement
-				};
-				that._vars.filter.init(__options);
+				that._vars.filterBuilder = FilterBuilder;
 				that._vars.pluginsToLoad.filter = true;
 				that._areAllPluginsLoaded();
 			});

@@ -8,7 +8,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			maxFilterHeight: 23,
 			filterWidth: 30,
 			useAnimatedScrolling: false,
-			end: ''
+			autoStartAfterReady: false
 		};
 
 		that._vars = {
@@ -32,8 +32,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			pubsubTokens: [],
 			iScrollInst: null,
 			filterContainerElementTop: 0,
-			isStarted: false,
-			end: ''
+			isStarted: false
 		};
 
 	};
@@ -47,6 +46,8 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			return;
 		}
 		that._vars.id = options.id;
+		that._options.autoStartAfterReady = options.autoStartAfterReady;
+
 		if (that._vars.id.length === 0) {
 			console.error('PerformFilter main list ID is invalid', that._vars.id);
 			return;
@@ -63,7 +64,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		that._vars.pubsubTokens.push(
 			pubsub.subscribe('mbs.performlist.ready.' + that._vars.id, function() {
 				that.ready();
-				that._vars.isReady = true;
+				that.resize();
 			})
 		);
 
@@ -78,7 +79,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 					return;
 				}
 				that.start();
-				that._vars.isStarted = true;
 			})
 		);
 
@@ -89,7 +89,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 					return;
 				}
 				that.stop();
-				that._vars.isStarted = false;
 			})
 		);
 
@@ -115,6 +114,12 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 
 		that._buildFilterContainerElement();
+
+		if (that._options.autoStartAfterReady === true) {
+			pubsub.publish('mbs.performlist.start.' + that._vars.id);
+		}
+
+		that._vars.isReady = true;
 	};
 
 	Filter.prototype.start = function() {
@@ -126,8 +131,6 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		}
 
 		that._startListenersOnFilterContainerElement();
-
-		that.resize();
 
 		that._vars.filterContainerElementTop = jsDomTools.getOffsetSum(that._vars.filterContainerElement).top;
 	};
@@ -143,6 +146,21 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 		for (var i = 0; i < that._vars.pubsubTokens.length; i++) {
 			var token = that._vars.pubsubTokens[i];
 			pubsub.unsubscribe(token);
+		}
+
+		that.removeListSpaceForFilterElement();
+
+		that._vars.titleItems = [];
+
+		if (that._vars.isStarted === true) {
+			that.stop();
+		}
+
+		if (that._vars.isReady === true) {
+			var parentNode = that._vars.listElement.parentNode;
+			var filtersElement = parentNode.querySelector('.perform-list-filters');
+			parentNode.removeChild(filtersElement);
+			that._vars.isReady = false;
 		}
 	};
 
@@ -284,6 +302,17 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 			return;
 		}
 		that._vars.listElement.style.marginRight = that._options.filterWidth + 'px';
+	};
+
+	// remove right margin for displaying letters
+	Filter.prototype.removeListSpaceForFilterElement = function() {
+		var that = this;
+
+		if (that._vars.listElement === null) {
+			console.error('Could not find listElement', that._vars.listElement);
+			return;
+		}
+		that._vars.listElement.style.marginRight = 0 + 'px';
 	};
 
 	// PRIVATE METHODS //

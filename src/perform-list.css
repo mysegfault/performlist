@@ -28,6 +28,11 @@ body {
 	-ms-touch-action: none !important;
 }
 
+.perform-list-labels {
+	color: #fff;
+	text-align: center;
+}
+
 .perform-list-container-parent {
 	position: relative;
 	/*
