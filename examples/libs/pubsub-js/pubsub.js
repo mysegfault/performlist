@@ -138,6 +138,7 @@ https://github.com/mroderick/PubSubJS
 	 *	Publishes the the message, passing the data to it's subscribers
 	**/
 	PubSub.publish = function( message, data ){
+		console.log('publish: ', message);
 		return publish( message, data, false, PubSub.immediateExceptions );
 	};
 

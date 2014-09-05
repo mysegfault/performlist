@@ -39,14 +39,6 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			all: ['src/*.js']
-		},
-		copy: {
-			main: {
-				expand: true,
-				cwd: 'dist/',
-				src: '*',
-				dest: 'examples/libs/perform-list/'
-			}
 		}
 	});
 
@@ -57,5 +49,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	// Default task
-	grunt.registerTask('default', ['uglify', 'cssmin', 'jshint', 'copy']);
+	grunt.registerTask('default', ['uglify', 'cssmin', 'jshint']);
 };

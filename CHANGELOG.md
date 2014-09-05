@@ -1,4 +1,10 @@
 
+# v0.2.0
+
+* can set content list multiple times with the same list (!)
+* disable optimizer by default (not needed)
+* fix when using default value for minItemsForFilters
+
 # v0.1.14
 
 * Fix when sliding on letters on Windows Phone

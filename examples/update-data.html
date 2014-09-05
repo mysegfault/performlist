@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>PerformList category list</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> 
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<link rel="stylesheet" href="../src/perform-list.css">
+
+	<!-- HTML5 Boilerplate main.css -->
+	<link rel="stylesheet" href="main.css">
+	<!-- Example page styles -->
+	<link rel="stylesheet" href="layout.css">
+	<style>
+		.header {
+			text-align: center;
+			margin: 30px;			
+		}
+		.mycontainer {
+			margin: 30px;			
+		}
+		.perform-list-container {
+			height: 200px;
+		}
+	</style>
+</head>
+<body>
+
+	<header class="header">Will load a long contact list after 5 seconds, then a short item list after 5 seconds, then again the contact list...</header>
+
+	<article class="mycontainer">
+		<div class="perform-list-container">
+			<p class="perform-list-labels">Loading...</p>
+		</div>
+	</article>
+
+	<!-- Optional: Polyfill for devices that do not support classList -->
+	<script src="libs/html5-polyfills/classList.js"></script>
+	<script src="libs/require/require.js"></script>
+
+	<script src="data/contacts.js"></script>
+	<script src="data/contacts-short.js"></script>
+	<script src="data/item-list-short.js"></script>
+
+	<script>
+		require.config({
+			baseUrl: 'libs'
+		});
+
+		require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList, pubsub) {
+
+			var list = new PerformList();
+			list.init();
+
+			pubsub.subscribe('mbs.performlist.initialized.' + list.getId(), function() {
+
+				var dataList = [
+					contacts,
+					contactsShort,
+					itemsShort
+				];
+				var cursor = 0;
+
+				var start = function() {
+					list.setData(dataList[cursor]);
+
+					cursor++;
+					if (cursor >= dataList.length) {
+						cursor = 0;
+					}
+
+					window.setTimeout(function() {
+						start();
+					}, 5 * 1000);
+				};
+
+				start();
+			});
+
+		});
+
+
+	</script>
+</body>
+</html>

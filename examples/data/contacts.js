@@ -1,4 +1,4 @@
-{
+var contacts = {
 	"A": [
 		"André", "Alexandre",
 		"André", "Alexandre",
@@ -59,4 +59,4 @@
 		"Zasmina",
 		"Zasmina"
 	]
-}
+};
