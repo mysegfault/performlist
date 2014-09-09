@@ -143,6 +143,10 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 	Filter.prototype.destroy = function() {
 		var that = this;
 
+		if (that._vars.iScrollInst !== null) {
+			that._vars.iScrollInst.destroy();
+		}
+		
 		for (var i = 0; i < that._vars.pubsubTokens.length; i++) {
 			var token = that._vars.pubsubTokens[i];
 			pubsub.unsubscribe(token);
