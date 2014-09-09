@@ -1,4 +1,8 @@
 
+# v0.2.2
+
+* fix scrolling to 0 when setting new data
+
 # v0.2.1
 
 * fix when setting a new data for the list: scrolling didn't stop when selecting a letter
