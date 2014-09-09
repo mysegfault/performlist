@@ -145,6 +145,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 
 		if (that._vars.iScrollInst !== null) {
 			that._vars.iScrollInst.destroy();
+			that._vars.iScrollInst = null;
 		}
 		
 		for (var i = 0; i < that._vars.pubsubTokens.length; i++) {

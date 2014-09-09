@@ -117,7 +117,6 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				return;
 			}
 			that.start();
-			that._vars.isStarted = true;
 		});
 
 		pubsub.subscribe('mbs.performlist.stop.' + that._vars.id, function() {
@@ -125,7 +124,6 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 				return;
 			}
 			that.stop();
-			that._vars.isStarted = false;
 		});
 
 		pubsub.subscribe('mbs.performlist.ready.' + that._vars.id, function() {
@@ -190,6 +188,8 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		that._vars.listElement.addEventListener('resize', that._vars._cb_afterListResize, false);
 
 		that._startListeners();
+
+		that._vars.isStarted = true;
 	};
 
 	Performlist.prototype.stop = function() {
@@ -204,9 +204,33 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 			window.clearInterval(that._vars.scrollingStatusId);
 		}
 
-		that._vars.listElement.removeEventListener("resize", that._vars._cb_afterListResize, false);
+		that._vars.listElement.removeEventListener('resize', that._vars._cb_afterListResize, false);
 
 		that._stopListeners();
+
+		that._vars.isStarted = false;
+	};
+
+	Performlist.prototype.destroy = function() {
+		var that = this;
+
+		that._vars.listItems = [];
+
+		if (that._vars.iScrollInst !== null) {
+			// stop scrolling
+			that._vars.iScrollInst.scrollTo(0, 0, 0, true);
+			that._vars.iScrollInst.destroy();
+			that._vars.iScrollInst = null;
+		}
+
+		if (that._vars.filter !== null) {
+			that._vars.filter.destroy();
+			that._vars.filter = null;
+		}
+
+		if (that._vars.isStarted === true) {
+			that.stop();
+		}
 	};
 
 	/*
@@ -223,17 +247,12 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 	Performlist.prototype.setData = function(items) {
 		var that = this;
 
-		that._vars.listItems = [];
-
-		if (that._vars.filter !== null) {
-			that._vars.filter.destroy();
-			that._vars.filter = null;
-		}
+		that.destroy();
 
 		if (items instanceof Array) {
-			that._vars.itemsType = "array";
-			that._options.categoryType = "ul";
-			that._options.itemType = "li";
+			that._vars.itemsType = 'array';
+			that._options.categoryType = 'ul';
+			that._options.itemType = 'li';
 			this._buildItemsAsArray(items);
 		}
 		else if (items instanceof Object) {
