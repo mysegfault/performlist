@@ -1,4 +1,8 @@
 
+# v0.2.1
+
+* fix when setting a new data for the list: scrolling didn't stop when selecting a letter
+
 # v0.2.0
 
 * can set content list multiple times with the same list (!)
