@@ -39,6 +39,38 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			all: ['src/*.js']
+		},
+		copy: {
+			libs_perform_list: {
+				expand: true,
+				cwd: 'dist/',
+				src: '*',
+				dest: 'examples/libs/perform-list/'
+			},
+			libs_iscroll: {
+				expand: true,
+				cwd: 'bower_components/iscroll/build',
+				src: '*',
+				dest: 'examples/libs/iscroll/'
+			},
+			libs_js_dom_tools: {
+				expand: true,
+				cwd: 'bower_components/js-dom-tools/src/',
+				src: 'js-dom-tools.js',
+				dest: 'examples/libs/js-dom-tools/'
+			},
+			libs_pubsub_js: {
+				expand: true,
+				cwd: 'bower_components/pubsub-js/src/',
+				src: 'pubsub.js',
+				dest: 'examples/libs/pubsub-js/'
+			},
+			libs_requirejs: {
+				expand: true,
+				cwd: 'bower_components/requirejs/',
+				src: 'require.js',
+				dest: 'examples/libs/require/'
+			}
 		}
 	});
 
@@ -49,5 +81,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	// Default task
-	grunt.registerTask('default', ['uglify', 'cssmin', 'jshint']);
+	grunt.registerTask('default', ['uglify', 'cssmin', 'jshint', 'copy']);
 };

@@ -196,7 +196,6 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		var that = this;
 
 		if (that._vars.fastButtonListInst !== null) {
-			that._vars.fastButtonListInst.destroy(that._vars.listElement);
 			that._vars.fastButtonListInst = null;
 		}
 

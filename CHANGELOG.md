@@ -1,4 +1,8 @@
 
+# v0.2.3
+
+* remove potential JS error
+
 # v0.2.2
 
 * fix scrolling to 0 when setting new data

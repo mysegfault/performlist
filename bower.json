@@ -1,6 +1,6 @@
 {
 	"name": "performlist",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"homepage": "https://github.com/mysegfault/performlist",
 	"authors": [
 		"mysegfault <maxime.alexandre@mobile-spot.com>",
@@ -20,10 +20,10 @@
 		"Gruntfile.js"
 	],
 	"dependencies": {
-		"requirejs": "~2.1.9",
-		"pubsub-js": "~1.4.0",
-		"raf.js": "~0.0.3",
+		"requirejs": ">2.1.9",
+		"pubsub-js": ">1.4.0",
+		"raf.js": ">0.0.3",
 		"tweenjs": "*",
-		"js-dom-tools": "~0.1.1"
+		"js-dom-tools": ">0.1.1"
 	}
 }

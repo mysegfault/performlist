@@ -1,6 +1,7 @@
 /*
  * JavaScript DOM tools library
- * 2013-12-20
+ * 2014-10-06
+ * v0.1.3
  *
  * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/js-dom-tools
  * 
@@ -20,14 +21,14 @@ define([], function() {
 		if (typeof id === 'string') {
 			tag.id = id;
 		}
-		
+
 		if (typeof callback === 'function') {
 			tag.addEventListener("load", function load(event) {
 				tag.removeEventListener("load", load, false);
 				callback(event);
 			}, false);
 		}
-		
+
 		document.body.appendChild(tag);
 	}
 
@@ -52,7 +53,7 @@ define([], function() {
 	}
 
 	function findParentNodeWithNodeName(element, nodeName) {
-		if (typeof element === 'undefined') {
+		if (element === null || typeof element !== 'object') {
 			return null;
 		}
 		if (typeof nodeName !== 'string') {
@@ -74,7 +75,7 @@ define([], function() {
 
 	function findParentNodeWithClassName(element, className) {
 
-		if (typeof element === 'undefined') {
+		if (element === null || typeof element !== 'object') {
 			return null;
 		}
 		if (typeof className !== 'string') {
@@ -96,7 +97,7 @@ define([], function() {
 
 	function findParentNodeWithAttribute(element, attributeName) {
 
-		if (typeof element === 'undefined') {
+		if (element === null || typeof element !== 'object') {
 			return null;
 		}
 		if (typeof attributeName !== 'string') {
@@ -116,6 +117,11 @@ define([], function() {
 	}
 
 	function objectTotalLength(object) {
+
+		if (typeof object !== 'object') {
+			console.error('objectTotalLength: object is not an object. ', object);
+			return 0;
+		}
 
 		if ('length' in object) {
 			return object.length;
