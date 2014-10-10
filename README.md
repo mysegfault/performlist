@@ -71,7 +71,7 @@ require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList,
 
 Or 
 
-[access directly the performlist examples](https://rawgithub.com/mysegfault/performlist/master/examples/index.html)
+[access directly the performlist examples](https://cdn.rawgit.com/mysegfault/performlist/master/examples/index.html)
 
 ## Notes
 
