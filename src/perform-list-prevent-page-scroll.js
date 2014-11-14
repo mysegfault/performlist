@@ -1,4 +1,4 @@
-define(['js-dom-tools/js-dom-tools'], function(jsDomTools) {
+define(['js-dom-tools'], function(jsDomTools) {
 	'use strict';
 
 	var preventScrollingOnThis = function(element) {

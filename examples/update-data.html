@@ -36,7 +36,7 @@
 
 	<!-- Optional: Polyfill for devices that do not support classList -->
 	<script src="libs/html5-polyfills/classList.js"></script>
-	<script src="libs/require/require.js"></script>
+	<script src="libs/requirejs/require.js"></script>
 
 	<script src="data/contacts.js"></script>
 	<script src="data/contacts-short.js"></script>
@@ -44,10 +44,17 @@
 
 	<script>
 		require.config({
-			baseUrl: 'libs'
+			paths: {
+				'perform-list': 'libs/perform-list/perform-list',
+				'perform-list-filter': 'libs/perform-list/perform-list-filter',
+				'perform-list-prevent-page-scroll': 'libs/perform-list/perform-list-prevent-page-scroll',
+				'html5-mobile-boilerplate-helper': 'libs/html5-mobile-boilerplate/helper',
+				'pubsub': 'libs/pubsub-js/pubsub',
+				'js-dom-tools': 'libs/js-dom-tools/js-dom-tools',
+			}
 		});
 
-		require(['perform-list/perform-list', 'pubsub-js/pubsub'], function(PerformList, pubsub) {
+		require(['perform-list', 'pubsub'], function(PerformList, pubsub) {
 
 			var list = new PerformList();
 			list.init();

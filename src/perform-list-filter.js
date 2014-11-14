@@ -1,4 +1,4 @@
-define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(raf, tweenjs, pubsub, jsDomTools) {
+define(['pubsub', 'js-dom-tools'], function(pubsub, jsDomTools) {
 	'use strict';
 
 	var Filter = function() {
@@ -206,7 +206,7 @@ define(['raf.js/raf.min', 'tweenjs/tween.min', 'pubsub-js/pubsub', 'js-dom-tools
 
 		that._vars.filterContainerElement = createFilterContainerElement();
 
-		require(['perform-list/perform-list-prevent-page-scroll'], function(preventPageScroller) {
+		require(['perform-list-prevent-page-scroll'], function(preventPageScroller) {
 			preventPageScroller.preventScrollingOnThis(that._vars.filterContainerElement);
 		});
 	};

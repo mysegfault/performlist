@@ -1,4 +1,4 @@
-define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-dom-tools'], function(helper, pubsub, jsDomTools) {
+define(['pubsub', 'js-dom-tools', 'html5-mobile-boilerplate-helper'], function(pubsub, jsDomTools, helper) {
 	'use strict';
 
 	var Performlist = function() {
@@ -526,7 +526,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 
 		if (that._options.useOptimizer === true) {
 			_hasNoPlugin = false;
-			require(['perform-list/perform-list-optimizer'], function(OptimizerBuilder) {
+			require(['perform-list-optimizer'], function(OptimizerBuilder) {
 				that._vars.optimizer = new OptimizerBuilder();
 				var __options = {
 					'id': that._vars.id,
@@ -541,7 +541,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		}
 		if (that._options.useFilters === true) {
 			_hasNoPlugin = false;
-			require(['perform-list/perform-list-filter'], function(FilterBuilder) {
+			require(['perform-list-filter'], function(FilterBuilder) {
 				that._vars.filterBuilder = FilterBuilder;
 				that._vars.pluginsToLoad.filter = true;
 				that._areAllPluginsLoaded();
@@ -549,7 +549,7 @@ define(['html5-mobile-boilerplate/helper', 'pubsub-js/pubsub', 'js-dom-tools/js-
 		}
 		if (that._options.usePreventPageScroller === true) {
 			_hasNoPlugin = false;
-			require(['perform-list/perform-list-prevent-page-scroll'], function(preventPageScroller) {
+			require(['perform-list-prevent-page-scroll'], function(preventPageScroller) {
 				that._vars.preventPageScroller = preventPageScroller;
 				that._vars.pluginsToLoad.preventPageScroller = true;
 				that._areAllPluginsLoaded();

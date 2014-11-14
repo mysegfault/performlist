@@ -1,12 +1,20 @@
 /*
  * JavaScript DOM tools library
- * 2014-10-06
- * v0.1.3
+ * 2014-11-14
+ * v0.1.6
  *
  * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/js-dom-tools
  * 
  * MIT Licence
  */
+
+require.config({
+	map: {
+		'*': {
+			'css': 'require-css/css'
+		}
+	}
+});
 
 define([], function() {
 
@@ -18,7 +26,7 @@ define([], function() {
 		var tag = document.createElement('script');
 		tag.src = src;
 		tag.async = true;
-		if (typeof id === 'string') {
+		if (typeof id === 'string' && isEmpty(id) === false) {
 			tag.id = id;
 		}
 
@@ -37,19 +45,38 @@ define([], function() {
 			console.error('src parameter is invalid: [' + src + ']');
 			return;
 		}
-		var tag = document.createElement('link');
-		tag.rel = 'stylesheet';
-		tag.href = src;
-		tag.async = true;
 
-		if (typeof callback === 'function') {
-			tag.addEventListener("load", function load(event) {
-				tag.removeEventListener("load", load, false);
-				callback(event);
-			}, false);
-		}
+		require(['css!' + src], function() {
+			if (typeof callback === 'function') {
+				callback();
+			}
+		});
 
-		document.head.appendChild(tag);
+//		var tag = document.createElement('link');
+//		tag.rel = 'stylesheet';
+//		tag.href = src;
+//		tag.async = true;
+
+//		if (typeof callback === 'function') {
+//			var called = false;
+//			tag.onload = function() {
+//				if (called === false) {
+//					called = true;
+//					callback(event);
+//				}
+//				tag.onload = null;
+//			};
+
+//			tag.addEventListener('load', function load(event) {
+//				if (called === false) {
+//					called = true;
+//					callback(event);
+//				}
+//				tag.removeEventListener('load', load, false);
+//			}, false);
+//		}
+
+//		document.head.appendChild(tag);
 	}
 
 	function findParentNodeWithNodeName(element, nodeName) {
@@ -159,6 +186,16 @@ define([], function() {
 		if (typeof data === 'string' && data.trim() === '') {
 			return true;
 		}
+
+		// if it's a DOM element, returns true because not null
+		// needed for iOS
+		if (typeof data === 'object' && isDOMElement(data) === true) {
+			return false;
+		}
+		if (typeof data === 'object' && Object.getOwnPropertyNames(data).length === 0) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -204,6 +241,58 @@ define([], function() {
 		return width;
 	}
 
+	function removeElement(element) {
+		if (isEmpty(element) === true) {
+			return;
+		}
+		var parent = element.parentNode;
+		if (isEmpty(parent) === true) {
+			console.error('This item has not parent', element, ' so it cannot be removed.');
+			return;
+		}
+		parent.removeChild(element);
+	}
+
+	function loadAsyncImage(src, id, callback) {
+		if (typeof src !== 'string') {
+			console.error('src parameter is invalid: [' + src + ']');
+			return;
+		}
+		var tag = document.createElement('img');
+		tag.src = src;
+		tag.async = true;
+		tag.style.visibility = 'hidden';
+		tag.style.position = 'absolute';
+		if (typeof id === 'string' && isEmpty(id) === false) {
+			tag.id = id;
+		}
+
+		if (typeof callback === 'function') {
+			tag.addEventListener('load', function load(event) {
+				tag.removeEventListener('load', load, false);
+				callback(event);
+			}, false);
+		}
+
+		document.body.appendChild(tag);
+	}
+
+	// see http://stackoverflow.com/questions/384286/javascript-isdom-how-do-you-check-if-a-javascript-object-is-a-dom-object
+	function isDOMElement(obj) {
+		try {
+			//Using W3 DOM2 (works for FF, Opera and Chrom)
+			return obj instanceof HTMLElement;
+		}
+		catch (e) {
+			//Browsers not supporting W3 DOM2 don't have HTMLElement and
+			//an exception is thrown and we end up here. Testing some
+			//properties that all elements have. (works on IE7)
+			return (typeof obj === "object") &&
+				(obj.nodeType === 1) && (typeof obj.style === "object") &&
+				(typeof obj.ownerDocument === "object");
+		}
+	}
+
 	return {
 		loadAsyncScript: loadAsyncScript,
 		loadAsyncCss: loadAsyncCss,
@@ -214,6 +303,10 @@ define([], function() {
 		getOffsetSum: getOffsetSum,
 		isEmpty: isEmpty,
 		getItemHeight: getItemHeight,
-		getItemWidth: getItemWidth
+		getItemWidth: getItemWidth,
+		removeElement: removeElement,
+		loadAsyncImage: loadAsyncImage,
+		isDOMElement: isDOMElement
 	};
+
 });
