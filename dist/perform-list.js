@@ -1,6 +1,6 @@
 /* 
  * performlist: Performlist is an HTML5 library for making fast scrolling lists (like Contact list) 
- * v0.2.3 
+ * v0.2.4 
  * 
  * By mysegfault <maxime.alexandre@mobile-spot.com>, https://github.com/mysegfault/performlist 
  * MIT Licence 

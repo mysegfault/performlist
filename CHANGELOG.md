@@ -1,4 +1,9 @@
 
+# v0.2.4
+
+* Remove libs dependencies we never really use (raf.js + tweenjs)
+* Use a more practical way to define / require the performlist packages (see examples)
+
 # v0.2.3
 
 * remove potential JS error
